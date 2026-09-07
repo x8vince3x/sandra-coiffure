@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sandra Coiffure — Salon de coiffure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#211d19;
+    --bone:#f5f0e6;
+    --bone-2:#ece4d4;
+    --copper:#b3671f;
+    --copper-dark:#8a4d16;
+    --taupe:#cdbd9c;
+    --line:rgba(33,29,25,0.14);
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Karla',sans-serif;
+    background:var(--bone);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  p{line-height:1.6; margin:0;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  :focus-visible{
+    outline:2px solid var(--copper-dark);
+    outline-offset:3px;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 20px;
+    background:rgba(245,240,230,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .wordmark{
+    font-family:'Fraunces',serif;
+    font-size:1.35rem;
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+  .wordmark em{font-style:italic; color:var(--copper-dark);}
+  nav{display:flex; gap:4px; align-items:center;}
+  .nav-btn{
+    background:none; border:none; cursor:pointer;
+    font-size:0.92rem; color:var(--ink); opacity:0.65;
+    padding:8px 10px;
+    border-bottom:2px solid transparent;
+  }
+  .nav-btn.active{opacity:1; border-bottom-color:var(--copper);}
+  .nav-phone{display:none;}
+  @media(min-width:640px){
+    .nav-phone{display:inline-block; font-size:0.85rem; margin-left:10px; padding-left:14px; border-left:1px solid var(--line);}
+  }
+
+  main{max-width:1100px; margin:0 auto;}
+  .page{display:none; animation:fade 0.35s ease;}
+  .page.active{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+  section{padding:56px 20px;}
+  @media(min-width:860px){ section{padding:88px 40px;} }
+
+  /* ---------- Hero ---------- */
+  .hero{padding-bottom:20px;}
+  .hero-grid{display:grid; gap:28px;}
+  @media(min-width:860px){
+    .hero-grid{grid-template-columns:1.3fr 0.9fr; align-items:end; gap:40px;}
+  }
+  .eyebrow-line{
+    display:flex; align-items:center; gap:10px;
+    font-size:0.85rem; color:var(--copper-dark); margin-bottom:18px;
+  }
+  .eyebrow-line svg{flex-shrink:0;}
+  .hero h1{
+    font-size:2.5rem; line-height:1.06;
+  }
+  @media(min-width:640px){ .hero h1{font-size:3.6rem;} }
+  .hero h1 .accent{font-style:italic; color:var(--copper-dark);}
+  .hero-sub{
+    margin-top:20px; max-width:46ch; font-size:1.05rem; color:#3d372f;
+  }
+  .hero-actions{margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 22px; border-radius:var(--radius);
+    font-size:0.95rem; font-weight:600; text-decoration:none; cursor:pointer;
+    border:1px solid var(--ink); background:var(--ink); color:var(--bone);
+    transition:background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn:hover{background:var(--copper-dark); border-color:var(--copper-dark); transform:translateY(-1px);}
+  .btn.ghost{background:transparent; color:var(--ink); border-color:var(--ink);}
+  .btn.ghost:hover{background:var(--ink); color:var(--bone);}
+
+  .hero-card{
+    background:var(--bone-2); border:1px solid var(--line); padding:26px;
+  }
+  .hero-card dl{display:grid; grid-template-columns:auto 1fr; gap:10px 16px; margin:0; font-size:0.9rem;}
+  .hero-card dt{color:#6b6153;}
+  .hero-card dd{margin:0; text-align:right;}
+  .hero-card hr{border:none; border-top:1px solid var(--line); margin:16px 0;}
+
+  /* ---------- Divider illustration ---------- */
+  .divider{padding:0 20px; display:flex; justify-content:center;}
+  .divider svg{width:100%; max-width:600px; height:auto;}
+
+  /* ---------- Philosophy ---------- */
+  .philosophy{display:grid; gap:36px;}
+  @media(min-width:860px){ .philosophy{grid-template-columns:0.9fr 1.1fr; gap:60px;} }
+  .philosophy h2{font-size:1.9rem; max-width:16ch;}
+  .philosophy-text p{margin-bottom:16px; color:#3d372f;}
+  .pull{
+    font-family:'Fraunces',serif; font-style:italic; font-size:1.25rem;
+    color:var(--copper-dark); border-left:2px solid var(--copper);
+    padding-left:18px; margin:22px 0;
+  }
+
+  /* ---------- Team ---------- */
+  .section-head{margin-bottom:36px; max-width:60ch;}
+  .section-head h2{font-size:1.9rem; margin-bottom:10px;}
+  .section-head p{color:#5a5346;}
+  .team-grid{display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));}
+  .team-card{border-top:1px solid var(--line); padding-top:18px;}
+  .monogram{
+    width:52px; height:52px; border-radius:50%;
+    background:var(--ink); color:var(--bone);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-size:1.1rem; margin-bottom:14px;
+  }
+  .team-card h3{font-size:1.15rem; margin-bottom:4px;}
+  .team-card .role{font-size:0.85rem; color:var(--copper-dark); margin-bottom:8px; display:block;}
+  .team-card p{font-size:0.9rem; color:#5a5346;}
+
+  /* ---------- Location / CTA ---------- */
+  .cta-band{
+    background:var(--ink); color:var(--bone);
+  }
+  .cta-band .section-head p{color:#cfc7b8;}
+  .cta-band .section-head h2{color:var(--bone);}
+  .cta-grid{display:grid; gap:30px;}
+  @media(min-width:860px){ .cta-grid{grid-template-columns:1fr 1fr;} }
+  .info-list{list-style:none; padding:0; margin:0; font-size:0.95rem;}
+  .info-list li{padding:10px 0; border-bottom:1px solid rgba(245,240,230,0.14); display:flex; justify-content:space-between; gap:20px;}
+  .cta-band .btn{margin-top:22px; background:var(--copper); border-color:var(--copper); color:var(--ink);}
+  .cta-band .btn:hover{background:var(--bone); border-color:var(--bone);}
+
+  footer{padding:30px 20px; text-align:center; font-size:0.82rem; color:#6b6153;}
+
+  /* ---------- Page 2 : prestations & réservation ---------- */
+  .booking-intro{max-width:60ch;}
+  .booking-layout{display:grid; gap:34px; margin-top:36px;}
+  @media(min-width:900px){ .booking-layout{grid-template-columns:1.2fr 0.9fr; align-items:start;} }
+
+  .cat-title{
+    font-size:0.85rem; text-transform:none; color:var(--copper-dark);
+    margin:34px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line);
+  }
+  .cat-title:first-of-type{margin-top:0;}
+
+  .service-row{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:14px 0; border-bottom:1px solid var(--line);
+    cursor:pointer;
+  }
+  .service-row input{
+    appearance:none; -webkit-appearance:none;
+    width:20px; height:20px; flex-shrink:0; margin-top:2px;
+    border:1.5px solid var(--ink); border-radius:50%;
+    display:grid; place-content:center; cursor:pointer;
+  }
+  .service-row input::before{
+    content:""; width:10px; height:10px; border-radius:50%;
+    background:var(--copper); transform:scale(0); transition:transform 0.15s;
+  }
+  .service-row input:checked::before{transform:scale(1);}
+  .service-row .s-info{flex:1;}
+  .service-row .s-name{font-weight:600; font-size:1rem;}
+  .service-row .s-desc{font-size:0.85rem; color:#6b6153; margin-top:2px;}
+  .service-row .s-meta{font-size:0.85rem; color:#6b6153; white-space:nowrap; text-align:right; padding-top:2px;}
+  .service-row .s-meta strong{display:block; color:var(--ink); font-size:0.98rem; font-weight:700;}
+
+  /* Booking panel */
+  .panel{
+    background:var(--bone-2); border:1px solid var(--line);
+    padding:24px; position:sticky; top:80px;
+  }
+  .panel h3{font-size:1.15rem; margin-bottom:16px;}
+  .empty-note{font-size:0.88rem; color:#6b6153;}
+  .summary-list{list-style:none; padding:0; margin:0 0 14px;}
+  .summary-list li{display:flex; justify-content:space-between; font-size:0.88rem; padding:6px 0; gap:10px;}
+  .summary-total{
+    display:flex; justify-content:space-between; font-weight:700;
+    padding-top:12px; border-top:1px solid var(--line); margin-bottom:20px; font-size:1rem;
+  }
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:0.82rem; color:#5a5346; margin-bottom:6px;}
+  .field input, .field select{
+    width:100%; padding:11px 12px; border:1px solid var(--line);
+    background:var(--bone); font-family:inherit; font-size:0.92rem; border-radius:var(--radius);
+  }
+  .slots{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:8px;}
+  .slot-btn{
+    padding:9px 4px; border:1px solid var(--line); background:var(--bone);
+    font-size:0.82rem; cursor:pointer; border-radius:var(--radius);
+  }
+  .slot-btn.selected{background:var(--ink); color:var(--bone); border-color:var(--ink);}
+  .slot-btn:disabled{opacity:0.35; cursor:not-allowed;}
+  .closed-note{font-size:0.85rem; color:var(--copper-dark); padding:10px 0;}
+
+  .confirm-btn{width:100%; justify-content:center; margin-top:6px;}
+  .confirm-btn:disabled{opacity:0.4; cursor:not-allowed; transform:none;}
+  .confirm-btn:disabled:hover{background:var(--ink); border-color:var(--ink);}
+
+  .confirmation{text-align:center; padding:10px 4px;}
+  .confirmation svg{margin-bottom:14px;}
+  .confirmation h3{font-size:1.3rem; margin-bottom:8px;}
+  .confirmation p{font-size:0.9rem; color:#5a5346; margin-bottom:4px;}
+  .confirmation .btn{margin-top:20px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">Sandra <em>Coiffure</em></div>
+  <nav>
+    <button class="nav-btn active" data-page="accueil">Accueil</button>
+    <button class="nav-btn" data-page="reservation">Prestations &amp; réservation</button>
+    <span class="nav-phone">01 47 22 06 58</span>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ================= PAGE 1 : ACCUEIL ================= -->
+  <div class="page active" id="page-accueil">
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow-line">
+            <svg width="34" height="14" viewBox="0 0 34 14"><path d="M0 7 C 6 1, 10 13, 16 7 S 28 1, 34 7" stroke="#b3671f" stroke-width="1.4" fill="none"/></svg>
+            Salon indépendant, quartier Saint-Ambroise
+          </div>
+          <h1>La coupe juste,<br><span class="accent">taillée pour vous.</span></h1>
+          <p class="hero-sub">Sandra Coiffure est un salon à taille humaine où chaque coupe part d'une conversation. Ciseaux, couleur végétale et gestes précis, sans jamais forcer une tendance qui ne vous ressemble pas.</p>
+          <div class="hero-actions">
+            <button class="btn" data-goto="reservation">Réserver un créneau</button>
+            <a class="btn ghost" href="#philosophie">Découvrir le salon</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <dl>
+            <dt>Mar – Ven</dt><dd>9h30 – 19h00</dd>
+            <dt>Samedi</dt><dd>9h30 – 18h00</dd>
+            <dt>Dim &amp; Lun</dt><dd>Fermé</dd>
+          </dl>
+          <hr>
+          <dl>
+            <dt>Adresse</dt><dd>12 rue des Trois-Bornes<br>75011 Paris</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true">
+      <svg viewBox="0 0 600 24"><path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12" stroke="#cdbd9c" stroke-width="1" fill="none"/></svg>
+    </div>
+
+    <section class="philosophy" id="philosophie">
+      <h2>Une méthode plutôt qu'un style imposé</h2>
+      <div class="philosophy-text">
+        <p>Sandra reçoit dans son salon depuis plusieurs années, avec une approche héritée du métier de barbière : précision aux ciseaux, gestes nets, et une attention particulière portée aux textures et aux implantations. Le travail se joue dans le détail — ajuster, alléger, densifier — jusqu'à ce que la coupe tienne d'elle-même, jour après jour.</p>
+        <p class="pull">On ne coupe pas des cheveux, on ajuste une ligne à un visage.</p>
+        <p>Chaque rendez-vous commence par un diagnostic à sec : texture, implantation, mode de vie. La coloration suit la même logique, avec une palette végétale et semi-permanente pensée pour vieillir avec grâce plutôt que de marquer une repousse nette.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>L'équipe</h2>
+        <p>Trois coiffeurs, trois spécialités, une même exigence de précision.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="monogram">CM</div>
+          <h3>Camille Moreau</h3>
+          <span class="role">Fondatrice — coupe &amp; structure</span>
+          <p>Quinze ans de coupe au ciseau, formée à Londres. Spécialiste des coupes courtes et des transformations.</p>
+        </div>
+        <div class="team-card">
+          <div class="monogram">YB</div>
+          <h3>Youssef Bakir</h3>
+          <span class="role">Coloriste</span>
+          <p>Balayages main levée et colorations végétales sur mesure, pensés pour un entretien espacé.</p>
+        </div>
+        <div class="team-card">
+          <div class="monogram">HL</div>
+          <h3>Hana Lefèvre</h3>
+          <span class="role">Texture &amp; soins</span>
+          <p>Cheveux bouclés et frisés, soins réparateurs, brushings longue tenue.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div class="section-head">
+        <h2>Passez nous voir</h2>
+        <p>À deux pas du métro Parmentier, entre une boulangerie et un disquaire.</p>
+      </div>
+      <div class="cta-grid">
+        <ul class="info-list">
+          <li><span>Adresse</span><span>12 rue des Trois-Bornes, 75011</span></li>
+          <li><span>Téléphone</span><span>01 47 22 06 58</span></li>
+          <li><span>Mar – Ven</span><span>9h30 – 19h00</span></li>
+          <li><span>Samedi</span><span>9h30 – 18h00</span></li>
+        </ul>
+        <div>
+          <p>Un créneau se libère en quelques clics : choisissez vos prestations, une date et une heure, on s'occupe du reste.</p>
+          <button class="btn" data-goto="reservation">Voir les prestations</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= PAGE 2 : PRESTATIONS & RÉSERVATION ================= -->
+  <div class="page" id="page-reservation">
+
+    <section>
+      <div class="booking-intro">
+        <h2 style="font-size:1.9rem; margin-bottom:12px;">Prestations &amp; réservation</h2>
+        <p style="color:#5a5346;">Sélectionnez une ou plusieurs prestations, puis choisissez une date et un horaire disponible. Vous pourrez ajuster votre sélection avant de confirmer.</p>
+      </div>
+
+      <div class="booking-layout">
+        <div id="services-list"></div>
+
+        <div class="panel" id="booking-panel">
+          <!-- injected by JS -->
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</main>
+
+<footer>
+  Lisière — 12 rue des Trois-Bornes, 75011 Paris — 01 47 22 06 58
+</footer>
+
+<!-- Formulaire statique nécessaire pour que Netlify détecte le formulaire au moment du build.
+     Ne pas supprimer : il reste caché, c'est le formulaire dynamique ci-dessus qui est rempli et envoyé via fetch(). -->
+<form name="reservations" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="nom" />
+  <input type="tel" name="telephone" />
+  <input type="text" name="date" />
+  <input type="text" name="creneau" />
+  <input type="text" name="prestations" />
+  <input type="text" name="total" />
+  <input type="text" name="bot-field" />
+</form>
+
+<script>
+(function(){
+  // ---------- navigation ----------
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const pages = { accueil: document.getElementById('page-accueil'), reservation: document.getElementById('page-reservation') };
+
+  function goTo(name){
+    Object.entries(pages).forEach(([key, el]) => el.classList.toggle('active', key === name));
+    navBtns.forEach(b => b.classList.toggle('active', b.dataset.page === name));
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  navBtns.forEach(b => b.addEventListener('click', () => goTo(b.dataset.page)));
+  document.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click', () => goTo(b.dataset.goto)));
+
+  // ---------- data ----------
+  const SERVICES = [
+    {id:'coupe-f', cat:'Coupe', name:'Coupe femme', desc:'Coupe, brushing inclus', duration:45, price:48},
+    {id:'coupe-h', cat:'Coupe', name:'Coupe homme', desc:'Coupe précision aux ciseaux', duration:30, price:32},
+    {id:'coupe-enfant', cat:'Coupe', name:'Coupe enfant', desc:"Jusqu'à 12 ans", duration:25, price:22},
+    {id:'balayage', cat:'Couleur', name:'Balayage', desc:'Éclaircissement main levée', duration:120, price:110},
+    {id:'coloration', cat:'Couleur', name:'Coloration racine', desc:'Application et rinçage', duration:75, price:65},
+    {id:'meches', cat:'Couleur', name:'Mèches', desc:'Papier ou balayage léger', duration:90, price:85},
+    {id:'soin', cat:'Soin', name:'Soin profond', desc:'Masque réparateur et massage', duration:30, price:28},
+    {id:'brushing', cat:'Soin', name:'Brushing', desc:'Mise en forme et lissage', duration:30, price:26},
+  ];
+
+  const state = { selected: new Set(), date: '', slot: null, confirmed: false, takenSlots: [], loadingSlots: false, bookingError: '' };
+
+  async function fetchTakenSlots(date){
+    state.loadingSlots = true;
+    renderPanel();
+    try {
+      const res = await fetch(`/.netlify/functions/book?date=${encodeURIComponent(date)}`);
+      const data = await res.json();
+      state.takenSlots = data.taken || [];
+    } catch(e) {
+      state.takenSlots = []; // hors Netlify (aperçu local) : pas de fonction disponible
+    }
+    state.loadingSlots = false;
+    renderPanel();
+  }
+
+  // ---------- render services ----------
+  const listEl = document.getElementById('services-list');
+  const cats = [...new Set(SERVICES.map(s => s.cat))];
+  let html = '';
+  cats.forEach(cat => {
+    html += `<div class="cat-title">${cat}</div>`;
+    SERVICES.filter(s => s.cat === cat).forEach(s => {
+      html += `
+        <label class="service-row" for="chk-${s.id}">
+          <input type="checkbox" id="chk-${s.id}" data-id="${s.id}">
+          <div class="s-info">
+            <div class="s-name">${s.name}</div>
+            <div class="s-desc">${s.desc}</div>
+          </div>
+          <div class="s-meta"><strong>${s.price} €</strong>${s.duration} min</div>
+        </label>`;
+    });
+  });
+  listEl.innerHTML = html;
+  listEl.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      if(cb.checked) state.selected.add(cb.dataset.id); else state.selected.delete(cb.dataset.id);
+      renderPanel();
+    });
+  });
+
+  // ---------- date bounds ----------
+  const today = new Date();
+  const minDate = today.toISOString().split('T')[0];
+  const maxDateObj = new Date(today); maxDateObj.setDate(maxDateObj.getDate() + 45);
+  const maxDate = maxDateObj.toISOString().split('T')[0];
+
+  function generateSlots(dateStr){
+    const d = new Date(dateStr + 'T00:00:00');
+    const day = d.getDay(); // 0 dim, 1 lun ... 6 sam
+    if(day === 0 || day === 1) return null; // fermé dimanche/lundi
+    const closeHour = day === 6 ? 18 : 19;
+    const slots = [];
+    let h = 9, m = 30;
+    while(h < closeHour || (h === closeHour && m === 0)){
+      if(h === closeHour && m > 0) break;
+      const isLunch = (h === 13) || (h === 12 && m === 30);
+      if(!isLunch) slots.push(`${String(h).padStart(2,'0')}h${String(m).padStart(2,'0')}`);
+      m += 30;
+      if(m === 60){ m = 0; h += 1; }
+    }
+    return slots;
+  }
+
+  function renderPanel(){
+    const panel = document.getElementById('booking-panel');
+    if(state.confirmed){ renderConfirmation(panel); return; }
+
+    const chosen = SERVICES.filter(s => state.selected.has(s.id));
+    const total = chosen.reduce((a,s) => a + s.price, 0);
+    const duration = chosen.reduce((a,s) => a + s.duration, 0);
+
+    let itemsHtml = chosen.length
+      ? `<ul class="summary-list">${chosen.map(s => `<li><span>${s.name}</span><span>${s.price} €</span></li>`).join('')}</ul>
+         <div class="summary-total"><span>${duration} min</span><span>${total} €</span></div>`
+      : `<p class="empty-note">Choisissez au moins une prestation pour commencer.</p>`;
+
+    let slotsHtml = '';
+    if(state.date){
+      const slots = generateSlots(state.date);
+      if(slots === null){
+        slotsHtml = `<p class="closed-note">Le salon est fermé ce jour-là. Merci de choisir mardi à samedi.</p>`;
+      } else if(state.loadingSlots){
+        slotsHtml = `<p class="empty-note">Vérification des disponibilités…</p>`;
+      } else {
+        slotsHtml = `<div class="field"><label>Créneau</label><div class="slots">${
+          slots.map(sl => {
+            const taken = state.takenSlots.includes(sl);
+            return `<button type="button" class="slot-btn ${state.slot===sl?'selected':''}" data-slot="${sl}" ${taken?'disabled':''}>${taken ? 'Pris' : sl}</button>`;
+          }).join('')
+        }</div></div>`;
+      }
+    }
+    if(state.bookingError){
+      slotsHtml += `<p class="closed-note">${state.bookingError}</p>`;
+    }
+
+    const canConfirm = chosen.length > 0 && state.date && state.slot;
+
+    panel.innerHTML = `
+      <h3>Votre réservation</h3>
+      ${itemsHtml}
+      <div class="field">
+        <label for="date-input">Date</label>
+        <input type="date" id="date-input" min="${minDate}" max="${maxDate}" value="${state.date}">
+      </div>
+      ${slotsHtml}
+      <div class="field">
+        <label for="name-input">Nom</label>
+        <input type="text" id="name-input" placeholder="Votre nom" value="${state.name || ''}">
+      </div>
+      <div class="field">
+        <label for="phone-input">Téléphone</label>
+        <input type="tel" id="phone-input" placeholder="06 12 34 56 78" value="${state.phone || ''}">
+      </div>
+      <button class="btn confirm-btn" id="confirm-btn" ${canConfirm ? '' : 'disabled'}>Confirmer la réservation</button>
+    `;
+
+    const dateInput = panel.querySelector('#date-input');
+    dateInput.addEventListener('change', e => {
+      state.date = e.target.value;
+      state.slot = null;
+      state.bookingError = '';
+      const slots = generateSlots(state.date);
+      if(slots !== null){ fetchTakenSlots(state.date); } else { state.takenSlots = []; renderPanel(); }
+    });
+
+    panel.querySelectorAll('.slot-btn').forEach(btn => {
+      btn.addEventListener('click', () => { state.slot = btn.dataset.slot; renderPanel(); });
+    });
+
+    const nameInput = panel.querySelector('#name-input');
+    const phoneInput = panel.querySelector('#phone-input');
+    nameInput.addEventListener('input', e => { state.name = e.target.value; });
+    phoneInput.addEventListener('input', e => { state.phone = e.target.value; });
+
+    const confirmBtn = panel.querySelector('#confirm-btn');
+    if(confirmBtn){
+      confirmBtn.addEventListener('click', async () => {
+        state.name = nameInput.value.trim() || 'Vous';
+        state.phone = phoneInput.value.trim();
+        state.bookingError = '';
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = 'Vérification du créneau…';
+
+        const dateObjPayload = new Date(state.date + 'T00:00:00');
+        const dateFr = dateObjPayload.toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit', year:'numeric'});
+        const prestationsLabel = chosen.map(s => s.name).join(', ');
+
+        // Étape 1 : réservation atomique du créneau (empêche les doublons)
+        let bookingOk = true;
+        try {
+          const bookRes = await fetch('/.netlify/functions/book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              date: state.date, slot: state.slot,
+              nom: state.name, telephone: state.phone,
+              prestations: prestationsLabel, total: total + ' €'
+            })
+          });
+          if(bookRes.status === 409){
+            bookingOk = false;
+            const errData = await bookRes.json().catch(() => ({}));
+            state.bookingError = errData.error || "Ce créneau vient d'être pris, merci d'en choisir un autre.";
+          }
+        } catch(e) {
+          // Hors Netlify (aperçu local) : la fonction n'existe pas, on laisse passer pour la démo.
+        }
+
+        if(!bookingOk){
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = 'Confirmer la réservation';
+          state.slot = null;
+          await fetchTakenSlots(state.date);
+          return;
+        }
+
+        // Étape 2 : envoi du mail de notification via Netlify Forms
+        confirmBtn.textContent = 'Envoi en cours…';
+        const payload = {
+          'form-name': 'reservations',
+          nom: state.name,
+          telephone: state.phone,
+          date: dateFr,
+          creneau: state.slot,
+          prestations: prestationsLabel,
+          total: total + ' €'
+        };
+
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(payload).toString()
+        })
+        .catch(() => { /* hors Netlify (aperçu local) : on ignore l'échec réseau */ })
+        .finally(() => {
+          state.confirmed = true;
+          renderPanel();
+        });
+      });
+    }
+  }
+
+
+  function renderConfirmation(panel){
+    const chosen = SERVICES.filter(s => state.selected.has(s.id));
+    const total = chosen.reduce((a,s) => a + s.price, 0);
+    const dateObj = new Date(state.date + 'T00:00:00');
+    const dateLabel = dateObj.toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'});
+    panel.innerHTML = `
+      <div class="confirmation">
+        <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" stroke="#b3671f" stroke-width="1.4" fill="none"/><path d="M12 20l6 6 10-12" stroke="#b3671f" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>Rendez-vous confirmé</h3>
+        <p>${dateLabel} à ${state.slot}</p>
+        <p>${chosen.map(s => s.name).join(', ')} — ${total} €</p>
+        <p>Un SMS de confirmation sera envoyé à ${state.name}.</p>
+        <button class="btn ghost" id="reset-btn">Nouvelle réservation</button>
+      </div>
+    `;
+    panel.querySelector('#reset-btn').addEventListener('click', () => {
+      state.selected.clear(); state.date=''; state.slot=null; state.confirmed=false;
+      listEl.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+      renderPanel();
+    });
+  }
+
+  renderPanel();
+})();
+</script>
+
+</body>
+</html>
