@@ -52,9 +52,10 @@ exports.handler = async (event) => {
     const [y, m, d] = date.split('-');
     const dateFr = `${d}/${m}/${y}`;
 
+    let mailError = null;
     try {
       const siteURL = process.env.URL || `https://${event.headers.host}`;
-      await fetch(`${siteURL}/`, {
+      const mailRes = await fetch(`${siteURL}/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
@@ -67,14 +68,17 @@ exports.handler = async (event) => {
           total: total || ''
         }).toString()
       });
+      if (!mailRes.ok) {
+        mailError = `Erreur ${mailRes.status} lors de l'envoi de la notification.`;
+      }
     } catch (e) {
-      console.error('Échec de la notification mail :', e);
+      mailError = `Exception : ${e.message}`;
     }
 
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ok: true })
+      body: JSON.stringify({ ok: true, mailError })
     };
   }
 
