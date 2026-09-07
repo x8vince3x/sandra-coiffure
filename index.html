@@ -576,6 +576,9 @@
           } else if(!bookRes.ok){
             bookingOk = false;
             state.bookingError = "Impossible de vérifier la disponibilité du créneau pour le moment. Merci de réessayer dans un instant, ou d'appeler le salon directement.";
+          } else {
+            const okData = await bookRes.json().catch(() => ({}));
+            state.mailDebug = okData.mailError || null;
           }
         } catch(e) {
           // Le fetch n'a même pas abouti (aperçu local sans fonctions Netlify) : on laisse passer pour la démo uniquement.
@@ -607,7 +610,8 @@
         <h3>Rendez-vous confirmé</h3>
         <p>${dateLabel} à ${state.slot}</p>
         <p>${chosen.map(s => s.name).join(', ')} — ${total} €</p>
-        <p>Un SMS de confirmation sera envoyé à ${state.name}.</p>
+        <p>Un mail de confirmation a été envoyé au salon.</p>
+        ${state.mailDebug ? `<p style="color:#b3671f; font-size:0.85rem;">Debug technique : ${state.mailDebug}</p>` : ''}
         <button class="btn ghost" id="reset-btn">Nouvelle réservation</button>
       </div>
     `;
