@@ -557,7 +557,7 @@
         const dateFr = dateObjPayload.toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit', year:'numeric'});
         const prestationsLabel = chosen.map(s => s.name).join(', ');
 
-        // Étape 1 : réservation atomique du créneau (empêche les doublons)
+        // Étape unique : réservation atomique du créneau + notification mail (gérées ensemble côté serveur)
         let bookingOk = true;
         try {
           const bookRes = await fetch('/.netlify/functions/book', {
@@ -574,8 +574,6 @@
             const errData = await bookRes.json().catch(() => ({}));
             state.bookingError = errData.error || "Ce créneau vient d'être pris, merci d'en choisir un autre.";
           } else if(!bookRes.ok){
-            // La fonction a répondu mais avec une erreur (ex: 404 = fonction non déployée) :
-            // on bloque plutôt que de laisser passer, pour ne jamais créer de doublon silencieux.
             bookingOk = false;
             state.bookingError = "Impossible de vérifier la disponibilité du créneau pour le moment. Merci de réessayer dans un instant, ou d'appeler le salon directement.";
           }
@@ -591,28 +589,8 @@
           return;
         }
 
-        // Étape 2 : envoi du mail de notification via Netlify Forms
-        confirmBtn.textContent = 'Envoi en cours…';
-        const payload = {
-          'form-name': 'reservations',
-          nom: state.name,
-          telephone: state.phone,
-          date: dateFr,
-          creneau: state.slot,
-          prestations: prestationsLabel,
-          total: total + ' €'
-        };
-
-        fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(payload).toString()
-        })
-        .catch(() => { /* hors Netlify (aperçu local) : on ignore l'échec réseau */ })
-        .finally(() => {
-          state.confirmed = true;
-          renderPanel();
-        });
+        state.confirmed = true;
+        renderPanel();
       });
     }
   }
