@@ -19,7 +19,7 @@ exports.handler = async (event) => {
     };
   }
 
-  // ---------- POST : tente de réserver un créneau ----------
+  // ---------- POST : réserve le créneau puis envoie la notification mail ----------
   if (event.httpMethod === 'POST') {
     let data;
     try {
@@ -35,8 +35,6 @@ exports.handler = async (event) => {
 
     const key = `${date}_${slot}`;
 
-    // onlyIfNew : l'écriture n'a lieu QUE si la clé n'existe pas encore.
-    // Deux clients qui cliquent en même temps sur le même créneau : un seul gagne.
     const written = await store.setJSON(
       key,
       { date, slot, nom: nom || '', telephone: telephone || '', prestations: prestations || '', total: total || '' },
@@ -49,6 +47,28 @@ exports.handler = async (event) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ error: 'Ce créneau vient d\'être réservé par quelqu\'un d\'autre.' })
       };
+    }
+
+    const [y, m, d] = date.split('-');
+    const dateFr = `${d}/${m}/${y}`;
+
+    try {
+      const siteURL = process.env.URL || `https://${event.headers.host}`;
+      await fetch(`${siteURL}/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'form-name': 'reservations',
+          nom: nom || '',
+          telephone: telephone || '',
+          date: dateFr,
+          creneau: slot,
+          prestations: prestations || '',
+          total: total || ''
+        }).toString()
+      });
+    } catch (e) {
+      console.error('Échec de la notification mail :', e);
     }
 
     return {
