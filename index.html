@@ -576,9 +576,6 @@
           } else if(!bookRes.ok){
             bookingOk = false;
             state.bookingError = "Impossible de vérifier la disponibilité du créneau pour le moment. Merci de réessayer dans un instant, ou d'appeler le salon directement.";
-          } else {
-            const okData = await bookRes.json().catch(() => ({}));
-            state.mailDebug = okData.mailError || null;
           }
         } catch(e) {
           // Le fetch n'a même pas abouti (aperçu local sans fonctions Netlify) : on laisse passer pour la démo uniquement.
@@ -590,6 +587,29 @@
           state.slot = null;
           await fetchTakenSlots(state.date);
           return;
+        }
+
+        // Étape 2 : envoi du mail de notification via Netlify Forms (méthode d'origine, côté client)
+        confirmBtn.textContent = 'Envoi en cours…';
+        const payload = {
+          'form-name': 'reservations',
+          nom: state.name,
+          telephone: state.phone,
+          date: dateFr,
+          creneau: state.slot,
+          prestations: prestationsLabel,
+          total: total + ' €'
+        };
+
+        try {
+          const mailRes = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(payload).toString()
+          });
+          state.mailDebug = mailRes.ok ? null : `Erreur ${mailRes.status} lors de l'envoi du mail.`;
+        } catch(e) {
+          state.mailDebug = `Le mail n'a pas pu être envoyé (${e.message}).`;
         }
 
         state.confirmed = true;
