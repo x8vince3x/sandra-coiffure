@@ -573,9 +573,14 @@
             bookingOk = false;
             const errData = await bookRes.json().catch(() => ({}));
             state.bookingError = errData.error || "Ce créneau vient d'être pris, merci d'en choisir un autre.";
+          } else if(!bookRes.ok){
+            // La fonction a répondu mais avec une erreur (ex: 404 = fonction non déployée) :
+            // on bloque plutôt que de laisser passer, pour ne jamais créer de doublon silencieux.
+            bookingOk = false;
+            state.bookingError = "Impossible de vérifier la disponibilité du créneau pour le moment. Merci de réessayer dans un instant, ou d'appeler le salon directement.";
           }
         } catch(e) {
-          // Hors Netlify (aperçu local) : la fonction n'existe pas, on laisse passer pour la démo.
+          // Le fetch n'a même pas abouti (aperçu local sans fonctions Netlify) : on laisse passer pour la démo uniquement.
         }
 
         if(!bookingOk){
