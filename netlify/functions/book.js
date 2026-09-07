@@ -19,7 +19,7 @@ exports.handler = async (event) => {
     };
   }
 
-  // ---------- POST : réserve le créneau puis envoie la notification mail ----------
+  // ---------- POST : réserve le créneau (sans envoi de mail, géré côté client) ----------
   if (event.httpMethod === 'POST') {
     let data;
     try {
@@ -49,37 +49,22 @@ exports.handler = async (event) => {
       };
     }
 
-    const [y, m, d] = date.split('-');
-    const dateFr = `${d}/${m}/${y}`;
-
-    let mailError = null;
-    try {
-      const siteURL = process.env.URL || `https://${event.headers.host}`;
-      const mailRes = await fetch(`${siteURL}/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          'form-name': 'reservations',
-          nom: nom || '',
-          telephone: telephone || '',
-          date: dateFr,
-          creneau: slot,
-          prestations: prestations || '',
-          total: total || ''
-        }).toString()
-      });
-      if (!mailRes.ok) {
-        mailError = `Erreur ${mailRes.status} lors de l'envoi de la notification.`;
-      }
-    } catch (e) {
-      mailError = `Exception : ${e.message}`;
-    }
-
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ok: true, mailError })
+      body: JSON.stringify({ ok: true })
     };
+  }
+
+  // ---------- DELETE : outil de nettoyage pour libérer un créneau de test ----------
+  if (event.httpMethod === 'DELETE') {
+    const date = event.queryStringParameters && event.queryStringParameters.date;
+    const slot = event.queryStringParameters && event.queryStringParameters.slot;
+    if (!date || !slot) {
+      return { statusCode: 400, body: JSON.stringify({ error: 'Date ou créneau manquant' }) };
+    }
+    await store.delete(`${date}_${slot}`);
+    return { statusCode: 200, body: JSON.stringify({ ok: true }) };
   }
 
   return { statusCode: 405, body: 'Method not allowed' };
