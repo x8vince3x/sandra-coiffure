@@ -397,6 +397,7 @@
             <label for="contact-website">Ne pas remplir</label>
             <input id="contact-website" name="website" tabindex="-1" autocomplete="off">
           </div>
+          <p class="empty-note">Vos coordonnées servent uniquement à répondre à votre demande ou à traiter la réservation.</p>
           <button class="btn confirm-btn" type="submit" id="contact-submit">Envoyer le message</button>
           <p class="contact-status" id="contact-status" role="status" aria-live="polite"></p>
         </form>
@@ -486,7 +487,7 @@
       renderPanel();
     }).catch(error => {
       if(requestId !== availabilityRequest) return;
-      state.takenSlots = [];
+      state.takenSlots = generateSlots(date, duration) || [];
       state.loadingSlots = false;
       state.bookingError = error.message;
       renderPanel();
