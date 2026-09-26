@@ -299,12 +299,27 @@
     .wordmark{font-size:1.12rem;white-space:nowrap}
     .hero h1{font-size:2.6rem}
   }
+\n
+  /* Header layout: centered salon name with navigation beneath */
+  header{display:flex;flex-direction:column;justify-content:center;gap:7px;padding:12px 16px;text-align:center}
+  .wordmark{display:block;margin:0 auto;font-size:1.6rem;line-height:1.2;white-space:nowrap}
+  .wordmark em{font-style:normal}
+  header nav{display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap}
+  .nav-phone{display:inline-block;font-size:.82rem;margin-left:8px;padding-left:13px;border-left:1px solid rgba(244,240,232,.3)}
+  @media(min-width:640px){.nav-phone{display:inline-block}}
+  @media(max-width:520px){
+    header{align-items:center;gap:5px}
+    .wordmark{font-size:1.45rem}
+    header nav{gap:0}
+    .nav-btn{font-size:.69rem;padding:7px 5px}
+    .nav-phone{font-size:.72rem;margin-left:5px;padding-left:8px}
+  }
 \n</style>
 </head>
 <body>
 
 <header>
-  <div class="wordmark">Sandra <em>Coiffure</em></div>
+  <div class="wordmark">Sandra Coiffure</div>
   <nav>
     <button class="nav-btn active" data-page="accueil">Accueil</button>
     <button class="nav-btn" data-page="reservation">Prestations &amp; réservation</button>
