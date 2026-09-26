@@ -352,6 +352,8 @@
         <p style="color:#5a5346;">Sélectionnez une ou plusieurs prestations, puis choisissez une date et un horaire disponible. Vous pourrez ajuster votre sélection avant de confirmer.</p>
       </div>
 
+      <p class="empty-note" style="margin-top:18px;">Mode aperçu : le parcours de réservation est simulé. Aucun rendez-vous ne sera enregistré.</p>
+
       <div class="booking-layout">
         <div id="services-list"></div>
 
@@ -369,17 +371,8 @@
   Lisière — 12 rue des Trois-Bornes, 75011 Paris — 01 47 22 06 58
 </footer>
 
-<!-- Formulaire statique nécessaire pour que Netlify détecte le formulaire au moment du build.
-     Ne pas supprimer : il reste caché, c'est le formulaire dynamique ci-dessus qui est rempli et envoyé via fetch(). -->
-<form name="reservations" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="text" name="nom" />
-  <input type="tel" name="telephone" />
-  <input type="text" name="date" />
-  <input type="text" name="creneau" />
-  <input type="text" name="prestations" />
-  <input type="text" name="total" />
-  <input type="text" name="bot-field" />
-</form>
+<!-- La réservation est simulée sur cet aperçu statique. -->
+
 
 <script>
 (function(){
@@ -409,17 +402,10 @@
 
   const state = { selected: new Set(), date: '', slot: null, confirmed: false, takenSlots: [], loadingSlots: false, bookingError: '' };
 
-  async function fetchTakenSlots(date){
-    state.loadingSlots = true;
-    renderPanel();
-    try {
-      const res = await fetch(`/.netlify/functions/book?date=${encodeURIComponent(date)}`);
-      const data = await res.json();
-      state.takenSlots = data.taken || [];
-    } catch(e) {
-      state.takenSlots = []; // hors Netlify (aperçu local) : pas de fonction disponible
-    }
+  function fetchTakenSlots(){
+    // GitHub Pages sert une démo statique : aucun créneau n'est enregistré.
     state.loadingSlots = false;
+    state.takenSlots = [];
     renderPanel();
   }
 
@@ -523,7 +509,7 @@
         <label for="phone-input">Téléphone</label>
         <input type="tel" id="phone-input" placeholder="06 12 34 56 78" value="${state.phone || ''}">
       </div>
-      <button class="btn confirm-btn" id="confirm-btn" ${canConfirm ? '' : 'disabled'}>Confirmer la réservation</button>
+      <button class="btn confirm-btn" id="confirm-btn" ${canConfirm ? '' : 'disabled'}>Simuler la réservation</button>
     `;
 
     const dateInput = panel.querySelector('#date-input');
@@ -546,72 +532,9 @@
 
     const confirmBtn = panel.querySelector('#confirm-btn');
     if(confirmBtn){
-      confirmBtn.addEventListener('click', async () => {
+      confirmBtn.addEventListener('click', () => {
         state.name = nameInput.value.trim() || 'Vous';
         state.phone = phoneInput.value.trim();
-        state.bookingError = '';
-        confirmBtn.disabled = true;
-        confirmBtn.textContent = 'Vérification du créneau…';
-
-        const dateObjPayload = new Date(state.date + 'T00:00:00');
-        const dateFr = dateObjPayload.toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit', year:'numeric'});
-        const prestationsLabel = chosen.map(s => s.name).join(', ');
-
-        // Étape unique : réservation atomique du créneau + notification mail (gérées ensemble côté serveur)
-        let bookingOk = true;
-        try {
-          const bookRes = await fetch('/.netlify/functions/book', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              date: state.date, slot: state.slot,
-              nom: state.name, telephone: state.phone,
-              prestations: prestationsLabel, total: total + ' €'
-            })
-          });
-          if(bookRes.status === 409){
-            bookingOk = false;
-            const errData = await bookRes.json().catch(() => ({}));
-            state.bookingError = errData.error || "Ce créneau vient d'être pris, merci d'en choisir un autre.";
-          } else if(!bookRes.ok){
-            bookingOk = false;
-            state.bookingError = "Impossible de vérifier la disponibilité du créneau pour le moment. Merci de réessayer dans un instant, ou d'appeler le salon directement.";
-          }
-        } catch(e) {
-          // Le fetch n'a même pas abouti (aperçu local sans fonctions Netlify) : on laisse passer pour la démo uniquement.
-        }
-
-        if(!bookingOk){
-          confirmBtn.disabled = false;
-          confirmBtn.textContent = 'Confirmer la réservation';
-          state.slot = null;
-          await fetchTakenSlots(state.date);
-          return;
-        }
-
-        // Étape 2 : envoi du mail de notification via Netlify Forms (méthode d'origine, côté client)
-        confirmBtn.textContent = 'Envoi en cours…';
-        const payload = {
-          'form-name': 'reservations',
-          nom: state.name,
-          telephone: state.phone,
-          date: dateFr,
-          creneau: state.slot,
-          prestations: prestationsLabel,
-          total: total + ' €'
-        };
-
-        try {
-          const mailRes = await fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(payload).toString()
-          });
-          state.mailDebug = mailRes.ok ? null : `Erreur ${mailRes.status} lors de l'envoi du mail.`;
-        } catch(e) {
-          state.mailDebug = `Le mail n'a pas pu être envoyé (${e.message}).`;
-        }
-
         state.confirmed = true;
         renderPanel();
       });
@@ -630,8 +553,7 @@
         <h3>Rendez-vous confirmé</h3>
         <p>${dateLabel} à ${state.slot}</p>
         <p>${chosen.map(s => s.name).join(', ')} — ${total} €</p>
-        <p>Un mail de confirmation a été envoyé au salon.</p>
-        ${state.mailDebug ? `<p style="color:#b3671f; font-size:0.85rem;">Debug technique : ${state.mailDebug}</p>` : ''}
+        <p>Mode démo : aucun rendez-vous n’a été enregistré et aucun message n’a été envoyé.</p>
         <button class="btn ghost" id="reset-btn">Nouvelle réservation</button>
       </div>
     `;
