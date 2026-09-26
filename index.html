@@ -419,7 +419,8 @@
 <script>
 (function(){
   // ---------- navigation ----------
-  const APPS_SCRIPT_URL = ''; // URL de l’application web Google, ajoutée après son déploiement.\n  const navBtns = document.querySelectorAll('.nav-btn');
+  const APPS_SCRIPT_URL = ''; // URL de l’application web Google, ajoutée après son déploiement.
+  const navBtns = document.querySelectorAll('.nav-btn');
   const pages = { accueil: document.getElementById('page-accueil'), reservation: document.getElementById('page-reservation'), contact: document.getElementById('page-contact') };
 
   function goTo(name){
@@ -442,13 +443,54 @@
     {id:'brushing', cat:'Soin', name:'Brushing', desc:'Mise en forme et lissage', duration:30, price:26},
   ];
 
-  const state = { selected: new Set(), date: '', slot: null, confirmed: false, takenSlots: [], loadingSlots: false, bookingError: '' };
+  const state = { selected: new Set(), date: '', slot: null, confirmed: false, takenSlots: [], loadingSlots: false, bookingError: '', name: '', phone: '', confirmationMessage: '', availabilityDuration: 30 };
 
-  function fetchTakenSlots(){
-    // GitHub Pages sert une démo statique : aucun créneau n'est enregistré.
-    state.loadingSlots = false;
-    state.takenSlots = [];
+  let availabilityRequest = 0;
+
+  function requestAvailability(date, duration){
+    return new Promise((resolve, reject) => {
+      if(!APPS_SCRIPT_URL){
+        reject(new Error('Les formulaires sont en attente de la configuration Google du salon.'));
+        return;
+      }
+      const callback = 'sandraSlots' + Date.now() + Math.floor(Math.random() * 100000);
+      const script = document.createElement('script');
+      const timeout = setTimeout(() => finish(new Error('La vérification des créneaux a expiré.')), 15000);
+      function finish(error, data){
+        clearTimeout(timeout);
+        delete window[callback];
+        script.remove();
+        if(error) reject(error); else resolve(data);
+      }
+      window[callback] = data => finish(null, data);
+      script.onerror = () => finish(new Error('Impossible de charger les disponibilités.'));
+      script.src = APPS_SCRIPT_URL + '?action=slots&date=' +
+        encodeURIComponent(date) + '&duration=' + encodeURIComponent(duration) +
+        '&callback=' + encodeURIComponent(callback);
+      document.body.appendChild(script);
+    });
+  }
+
+  function fetchTakenSlots(date, duration){
+    const requestId = ++availabilityRequest;
+    state.availabilityDuration = duration;
+    state.loadingSlots = true;
+    state.bookingError = '';
     renderPanel();
+    requestAvailability(date, duration).then(data => {
+      if(requestId !== availabilityRequest) return;
+      if(!data || !data.ok) throw new Error(data && data.error ? data.error : 'La disponibilité n’a pas pu être vérifiée.');
+      state.takenSlots = data.taken || [];
+      state.loadingSlots = false;
+      state.bookingError = '';
+      renderPanel();
+    }).catch(error => {
+      if(requestId !== availabilityRequest) return;
+      state.takenSlots = [];
+      state.loadingSlots = false;
+      state.bookingError = error.message;
+      renderPanel();
+    });
   }
 
   // ---------- render services ----------
@@ -473,7 +515,9 @@
   listEl.querySelectorAll('input[type=checkbox]').forEach(cb => {
     cb.addEventListener('change', () => {
       if(cb.checked) state.selected.add(cb.dataset.id); else state.selected.delete(cb.dataset.id);
-      renderPanel();
+      state.slot = null;
+      const length = SERVICES.filter(s => state.selected.has(s.id)).reduce((sum,s) => sum + s.duration, 0);
+      if(state.date) fetchTakenSlots(state.date, Math.max(30, length)); else renderPanel();
     });
   });
 
@@ -483,19 +527,17 @@
   const maxDateObj = new Date(today); maxDateObj.setDate(maxDateObj.getDate() + 45);
   const maxDate = maxDateObj.toISOString().split('T')[0];
 
-  function generateSlots(dateStr){
+  function generateSlots(dateStr, duration){
     const d = new Date(dateStr + 'T00:00:00');
-    const day = d.getDay(); // 0 dim, 1 lun ... 6 sam
-    if(day === 0 || day === 1) return null; // fermé dimanche/lundi
-    const closeHour = day === 6 ? 18 : 19;
+    const day = d.getDay();
+    if(day === 0 || day === 1) return null;
+    const close = (day === 6 ? 18 : 19) * 60;
     const slots = [];
-    let h = 9, m = 30;
-    while(h < closeHour || (h === closeHour && m === 0)){
-      if(h === closeHour && m > 0) break;
-      const isLunch = (h === 13) || (h === 12 && m === 30);
-      if(!isLunch) slots.push(`${String(h).padStart(2,'0')}h${String(m).padStart(2,'0')}`);
-      m += 30;
-      if(m === 60){ m = 0; h += 1; }
+    for(let start = 9 * 60 + 30; start + duration <= close; start += 30){
+      if(start === 12 * 60 + 30 || start === 13 * 60) continue;
+      if(start < 13 * 60 + 30 && start + duration > 12 * 60 + 30) continue;
+      const hour = Math.floor(start / 60), minute = start % 60;
+      slots.push(String(hour).padStart(2,'0') + 'h' + String(minute).padStart(2,'0'));
     }
     return slots;
   }
@@ -515,9 +557,12 @@
 
     let slotsHtml = '';
     if(state.date){
-      const slots = generateSlots(state.date);
+      const length = Math.max(30, chosen.reduce((sum,s) => sum + s.duration, 0));
+      const slots = generateSlots(state.date, length);
       if(slots === null){
         slotsHtml = `<p class="closed-note">Le salon est fermé ce jour-là. Merci de choisir mardi à samedi.</p>`;
+      } else if(!APPS_SCRIPT_URL){
+        slotsHtml = '<p class=closed-note>La réservation attend la configuration Google du salon.</p>';
       } else if(state.loadingSlots){
         slotsHtml = `<p class="empty-note">Vérification des disponibilités…</p>`;
       } else {
@@ -533,7 +578,7 @@
       slotsHtml += `<p class="closed-note">${state.bookingError}</p>`;
     }
 
-    const canConfirm = chosen.length > 0 && state.date && state.slot;
+    const canConfirm = !!APPS_SCRIPT_URL && chosen.length > 0 && state.date && state.slot && !state.loadingSlots;
 
     panel.innerHTML = `
       <h3>Votre réservation</h3>
@@ -551,7 +596,7 @@
         <label for="phone-input">Téléphone</label>
         <input type="tel" id="phone-input" placeholder="06 12 34 56 78" value="${state.phone || ''}">
       </div>
-      <button class="btn confirm-btn" id="confirm-btn" ${canConfirm ? '' : 'disabled'}>Simuler la réservation</button>
+      <button class="btn confirm-btn" id="confirm-btn" ${canConfirm ? '' : 'disabled'}>Envoyer la demande</button>
     `;
 
     const dateInput = panel.querySelector('#date-input');
@@ -559,8 +604,9 @@
       state.date = e.target.value;
       state.slot = null;
       state.bookingError = '';
-      const slots = generateSlots(state.date);
-      if(slots !== null){ fetchTakenSlots(state.date); } else { state.takenSlots = []; renderPanel(); }
+      const length = Math.max(30, chosen.reduce((sum,s) => sum + s.duration, 0));
+      const slots = generateSlots(state.date, length);
+      if(slots !== null){ fetchTakenSlots(state.date, length); } else { availabilityRequest++; state.takenSlots = []; state.loadingSlots = false; renderPanel(); }
     });
 
     panel.querySelectorAll('.slot-btn').forEach(btn => {
