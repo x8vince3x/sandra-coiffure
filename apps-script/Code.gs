@@ -226,7 +226,7 @@ function jsonp_(callback, data) {
 function frameResponse_(token, result) {
   const data = JSON.stringify({ token: token, result: result }).replace(/</g, '\\u003c');
   const html = '<!doctype html><meta charset="utf-8"><script>' +
-    'window.parent.postMessage(' + data + ', "*");</script>';
+    'window.top.postMessage(' + data + ', "*");</script>';
   return HtmlService.createHtmlOutput(html)
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
