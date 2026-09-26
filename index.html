@@ -683,7 +683,8 @@
   const pendingSubmissions = new Map();
 
   window.addEventListener('message', event => {
-    if(event.source !== bridgeFrame.contentWindow || !event.data || !event.data.token) return;
+    const trustedOrigin = event.origin === 'https://script.google.com' || event.origin === 'https://script.googleusercontent.com';
+    if(!trustedOrigin || !event.data || !event.data.token) return;
     const complete = pendingSubmissions.get(event.data.token);
     if(!complete) return;
     pendingSubmissions.delete(event.data.token);
@@ -693,7 +694,7 @@
   function submitToBackend(action, fields){
     return new Promise((resolve, reject) => {
       if(!APPS_SCRIPT_URL) return reject(new Error('Les formulaires ne sont pas encore configurés.'));
-      const token = 't' + Date.now().toString(36) + Math.random().toString(36).slice(2,14);
+      const token = 't' + crypto.randomUUID().replace(/-/g, '');
       bridgeForm.replaceChildren();
       bridgeForm.action = APPS_SCRIPT_URL;
       const values = Object.assign({action:action, token:token, website:''}, fields);
