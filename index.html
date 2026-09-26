@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sandra Coiffure — Salon de coiffure</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Sandra Coiffure — Salon rock à Paris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#211d19;
@@ -236,7 +236,70 @@
   .confirmation h3{font-size:1.3rem; margin-bottom:8px;}
   .confirmation p{font-size:0.9rem; color:#5a5346; margin-bottom:4px;}
   .confirmation .btn{margin-top:20px;}
-</style>
+
+  /* ---------- Rock'n'roll redesign ---------- */
+  :root{
+    --ink:#f4f0e8;
+    --bone:#101010;
+    --bone-2:#191919;
+    --copper:#e11d2e;
+    --copper-dark:#ff3344;
+    --taupe:#4b4b4b;
+    --line:rgba(244,240,232,.16);
+    --radius:0px;
+  }
+  body{
+    background-color:#101010;
+    background-image:radial-gradient(ellipse at 50% 0%,rgba(120,10,20,.17),transparent 55%), repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0,rgba(255,255,255,.012) 1px,transparent 1px,transparent 4px);
+    color:#f4f0e8;
+  }
+  h1,h2,h3,.serif,.wordmark{font-family:'Oswald','Arial Narrow',sans-serif;text-transform:uppercase;letter-spacing:.025em}
+  header{background:rgba(10,10,10,.94);border-bottom:1px solid rgba(225,29,46,.55)}
+  .wordmark{font-size:1.45rem;letter-spacing:.07em}
+  .wordmark em{color:#e11d2e}
+  .nav-btn{color:#f4f0e8;text-transform:uppercase;font-weight:700;letter-spacing:.06em}
+  .nav-btn.active{border-bottom-color:#e11d2e}
+  .nav-phone{border-left-color:var(--line)}
+  .eyebrow-line{color:#ff3344;text-transform:uppercase;letter-spacing:.13em;font-weight:700;font-size:.75rem}
+  .hero h1{font-size:3.1rem;line-height:1.02;letter-spacing:.015em}
+  @media(min-width:640px){.hero h1{font-size:5.2rem}}
+  .hero h1 .accent{color:#e11d2e}
+  .hero-sub,.philosophy-text p,.section-head p,.team-card p{color:#c5c1b9}
+  .btn{background:#e11d2e;border-color:#e11d2e;color:#fff;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  .btn:hover{background:#ff3344;border-color:#ff3344}
+  .btn.ghost{background:transparent;color:#f4f0e8;border-color:#777}
+  .btn.ghost:hover{background:#f4f0e8;border-color:#f4f0e8;color:#101010}
+  .hero-card,.panel{background:#191919;border:1px solid rgba(225,29,46,.45);box-shadow:8px 8px 0 rgba(225,29,46,.12)}
+  .hero-card dt,.empty-note,.service-row .s-desc,.service-row .s-meta,.field label,.confirmation p{color:#aaa59d}
+  .divider svg path{stroke:#e11d2e}
+  .philosophy h2,.section-head h2,.booking-intro h2{font-size:2.2rem;line-height:1.05}
+  .pull{color:#ff5260;border-left-color:#e11d2e}
+  .team-card{border-top:1px solid rgba(225,29,46,.65)}
+  .monogram{border-radius:0;background:#e11d2e;color:white;font-family:'Oswald',sans-serif}
+  .team-card .role,.cat-title{color:#ff5260;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  .cta-band{background:#e11d2e;color:#fff}
+  .cta-band .section-head p{color:#ffe0e2}
+  .cta-band .btn{background:#101010;border-color:#101010;color:#fff}
+  .cta-band .btn:hover{background:#fff;border-color:#fff;color:#101010}
+  .info-list li{border-bottom-color:rgba(255,255,255,.28)}
+  footer{color:#8d8982}
+  .service-row input{border-color:#aaa}
+  .service-row input::before{background:#e11d2e}
+  .service-row .s-meta strong{color:#f4f0e8}
+  .panel h3{font-family:'Oswald','Arial Narrow',sans-serif;text-transform:uppercase;font-size:1.4rem}
+  .field input,.field select,.slot-btn{background:#101010;color:#f4f0e8;border-color:#555}
+  .slot-btn.selected{background:#e11d2e;border-color:#e11d2e;color:#fff}
+  .summary-total{border-top-color:#555}
+  .closed-note{color:#ff6874}
+  :focus-visible{outline-color:#ff5260}
+  @media(max-width:520px){
+    header{padding:13px 14px;align-items:flex-start;gap:10px}
+    nav{gap:0;flex-wrap:wrap;justify-content:flex-end}
+    .nav-btn{font-size:.72rem;padding:8px 6px}
+    .wordmark{font-size:1.12rem;white-space:nowrap}
+    .hero h1{font-size:2.6rem}
+  }
+\n</style>
 </head>
 <body>
 
@@ -368,7 +431,7 @@
 </main>
 
 <footer>
-  Lisière — 12 rue des Trois-Bornes, 75011 Paris — 01 47 22 06 58
+  Sandra Coiffure — 12 rue des Trois-Bornes, 75011 Paris — 01 47 22 06 58
 </footer>
 
 <!-- La réservation est simulée sur cet aperçu statique. -->
