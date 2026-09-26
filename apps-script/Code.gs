@@ -158,12 +158,23 @@ function getStartSlots_(date, duration) {
 }
 
 function validateAppointment_(date, slot, duration, checkSlot) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) ||
-      isNaN(new Date(date + 'T12:00:00').getTime())) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
     throw new Error('Choisissez une date valide.');
   }
-  const parsedDate = new Date(date + 'T12:00:00');
-  if (parsedDate.getDay() === 0 || parsedDate.getDay() === 1) {
+  const parsedDate = new Date(date + 'T12:00:00Z');
+  if (isNaN(parsedDate.getTime()) ||
+      Utilities.formatDate(parsedDate, 'UTC', 'yyyy-MM-dd') !== date) {
+    throw new Error('Choisissez une date valide.');
+  }
+  const todayText = Utilities.formatDate(new Date(), 'Europe/Paris', 'yyyy-MM-dd');
+  const today = new Date(todayText + 'T12:00:00Z');
+  const latest = new Date(today.getTime());
+  latest.setUTCDate(latest.getUTCDate() + 45);
+  if (parsedDate < today || parsedDate > latest) {
+    throw new Error('Choisissez une date dans les 45 prochains jours.');
+  }
+  const day = parsedDate.getUTCDay();
+  if (day === 0 || day === 1) {
     throw new Error('Le salon est fermé le dimanche et le lundi.');
   }
   if (checkSlot && getStartSlots_(date, duration).indexOf(slot) === -1) {
