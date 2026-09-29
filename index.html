@@ -314,6 +314,14 @@
     .nav-btn{font-size:.69rem;padding:7px 5px}
     .nav-phone{font-size:.72rem;margin-left:5px;padding-left:8px}
   }
+\n
+  .booking-cta{position:static}
+  .booking-cta h3{font-size:1.5rem;margin-bottom:12px}
+  .booking-cta p{color:#c5c1b9;font-size:.94rem}
+  .booking-cta .confirm-btn{margin-top:20px;text-align:center}
+  .booking-help{margin-top:14px;font-size:.82rem!important;color:#aaa59d!important}
+  .service-row{cursor:default}
+  .service-row input{display:none}
 \n</style>
 </head>
 <body>
@@ -430,14 +438,17 @@
         <p style="color:#5a5346;">Sélectionnez une ou plusieurs prestations, puis choisissez une date et un horaire disponible. Vous pourrez ajuster votre sélection avant de confirmer.</p>
       </div>
 
-      <p class="empty-note" style="margin-top:18px;">Mode aperçu : le parcours de réservation est simulé. Aucun rendez-vous ne sera enregistré.</p>
+      <p style="margin-top:18px;color:#c5c1b9;">Consultez nos prestations et réservez votre créneau sur Google Agenda.</p>
 
       <div class="booking-layout">
         <div id="services-list"></div>
-
-        <div class="panel" id="booking-panel">
-          <!-- injected by JS -->
-        </div>
+        <aside class="panel booking-cta">
+          <h3>Réserver un rendez-vous</h3>
+          <p>Choisissez un créneau disponible sur notre page de réservation Google. Une fois la réservation confirmée, le rendez-vous sera ajouté à l’agenda du salon.</p>
+          <a class="btn confirm-btn" href="https://calendar.app.google/yvic53PxzF9sexQW7" target="_blank" rel="noopener">Choisir un créneau</a>
+          <p class="booking-help">Pensez à indiquer la prestation souhaitée lors de votre réservation.</p>
+        </aside>
+      </div>
       </div>
     </section>
 
@@ -449,12 +460,11 @@
   Sandra Coiffure — 12 rue des Trois-Bornes, 75011 Paris — 01 47 22 06 58
 </footer>
 
-<!-- La réservation est simulée sur cet aperçu statique. -->
+<!-- Les réservations sont prises sur la page Google Agenda du salon. -->
 
 
 <script>
 (function(){
-  // ---------- navigation ----------
   const navBtns = document.querySelectorAll('.nav-btn');
   const pages = { accueil: document.getElementById('page-accueil'), reservation: document.getElementById('page-reservation') };
 
@@ -466,183 +476,30 @@
   navBtns.forEach(b => b.addEventListener('click', () => goTo(b.dataset.page)));
   document.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click', () => goTo(b.dataset.goto)));
 
-  // ---------- data ----------
   const SERVICES = [
-    {id:'coupe-f', cat:'Coupe', name:'Coupe femme', desc:'Coupe, brushing inclus', duration:45, price:48},
-    {id:'coupe-h', cat:'Coupe', name:'Coupe homme', desc:'Coupe précision aux ciseaux', duration:30, price:32},
-    {id:'coupe-enfant', cat:'Coupe', name:'Coupe enfant', desc:"Jusqu'à 12 ans", duration:25, price:22},
-    {id:'balayage', cat:'Couleur', name:'Balayage', desc:'Éclaircissement main levée', duration:120, price:110},
-    {id:'coloration', cat:'Couleur', name:'Coloration racine', desc:'Application et rinçage', duration:75, price:65},
-    {id:'meches', cat:'Couleur', name:'Mèches', desc:'Papier ou balayage léger', duration:90, price:85},
-    {id:'soin', cat:'Soin', name:'Soin profond', desc:'Masque réparateur et massage', duration:30, price:28},
-    {id:'brushing', cat:'Soin', name:'Brushing', desc:'Mise en forme et lissage', duration:30, price:26},
+    {cat:'Coupe', name:'Coupe femme', desc:'Coupe, brushing inclus', duration:45, price:48},
+    {cat:'Coupe', name:'Coupe homme', desc:'Coupe précision aux ciseaux', duration:30, price:32},
+    {cat:'Coupe', name:'Coupe enfant', desc:"Jusqu'à 12 ans", duration:25, price:22},
+    {cat:'Couleur', name:'Balayage', desc:'Éclaircissement main levée', duration:120, price:110},
+    {cat:'Couleur', name:'Coloration racine', desc:'Application et rinçage', duration:75, price:65},
+    {cat:'Couleur', name:'Mèches', desc:'Papier ou balayage léger', duration:90, price:85},
+    {cat:'Soin', name:'Soin profond', desc:'Masque réparateur et massage', duration:30, price:28},
+    {cat:'Soin', name:'Brushing', desc:'Mise en forme et lissage', duration:30, price:26},
   ];
 
-  const state = { selected: new Set(), date: '', slot: null, confirmed: false, takenSlots: [], loadingSlots: false, bookingError: '' };
-
-  function fetchTakenSlots(){
-    // GitHub Pages sert une démo statique : aucun créneau n'est enregistré.
-    state.loadingSlots = false;
-    state.takenSlots = [];
-    renderPanel();
-  }
-
-  // ---------- render services ----------
   const listEl = document.getElementById('services-list');
   const cats = [...new Set(SERVICES.map(s => s.cat))];
-  let html = '';
-  cats.forEach(cat => {
-    html += `<div class="cat-title">${cat}</div>`;
-    SERVICES.filter(s => s.cat === cat).forEach(s => {
-      html += `
-        <label class="service-row" for="chk-${s.id}">
-          <input type="checkbox" id="chk-${s.id}" data-id="${s.id}">
-          <div class="s-info">
-            <div class="s-name">${s.name}</div>
-            <div class="s-desc">${s.desc}</div>
-          </div>
-          <div class="s-meta"><strong>${s.price} €</strong>${s.duration} min</div>
-        </label>`;
-    });
-  });
-  listEl.innerHTML = html;
-  listEl.querySelectorAll('input[type=checkbox]').forEach(cb => {
-    cb.addEventListener('change', () => {
-      if(cb.checked) state.selected.add(cb.dataset.id); else state.selected.delete(cb.dataset.id);
-      renderPanel();
-    });
-  });
-
-  // ---------- date bounds ----------
-  const today = new Date();
-  const minDate = today.toISOString().split('T')[0];
-  const maxDateObj = new Date(today); maxDateObj.setDate(maxDateObj.getDate() + 45);
-  const maxDate = maxDateObj.toISOString().split('T')[0];
-
-  function generateSlots(dateStr){
-    const d = new Date(dateStr + 'T00:00:00');
-    const day = d.getDay(); // 0 dim, 1 lun ... 6 sam
-    if(day === 0 || day === 1) return null; // fermé dimanche/lundi
-    const closeHour = day === 6 ? 18 : 19;
-    const slots = [];
-    let h = 9, m = 30;
-    while(h < closeHour || (h === closeHour && m === 0)){
-      if(h === closeHour && m > 0) break;
-      const isLunch = (h === 13) || (h === 12 && m === 30);
-      if(!isLunch) slots.push(`${String(h).padStart(2,'0')}h${String(m).padStart(2,'0')}`);
-      m += 30;
-      if(m === 60){ m = 0; h += 1; }
-    }
-    return slots;
-  }
-
-  function renderPanel(){
-    const panel = document.getElementById('booking-panel');
-    if(state.confirmed){ renderConfirmation(panel); return; }
-
-    const chosen = SERVICES.filter(s => state.selected.has(s.id));
-    const total = chosen.reduce((a,s) => a + s.price, 0);
-    const duration = chosen.reduce((a,s) => a + s.duration, 0);
-
-    let itemsHtml = chosen.length
-      ? `<ul class="summary-list">${chosen.map(s => `<li><span>${s.name}</span><span>${s.price} €</span></li>`).join('')}</ul>
-         <div class="summary-total"><span>${duration} min</span><span>${total} €</span></div>`
-      : `<p class="empty-note">Choisissez au moins une prestation pour commencer.</p>`;
-
-    let slotsHtml = '';
-    if(state.date){
-      const slots = generateSlots(state.date);
-      if(slots === null){
-        slotsHtml = `<p class="closed-note">Le salon est fermé ce jour-là. Merci de choisir mardi à samedi.</p>`;
-      } else if(state.loadingSlots){
-        slotsHtml = `<p class="empty-note">Vérification des disponibilités…</p>`;
-      } else {
-        slotsHtml = `<div class="field"><label>Créneau</label><div class="slots">${
-          slots.map(sl => {
-            const taken = state.takenSlots.includes(sl);
-            return `<button type="button" class="slot-btn ${state.slot===sl?'selected':''}" data-slot="${sl}" ${taken?'disabled':''}>${taken ? 'Pris' : sl}</button>`;
-          }).join('')
-        }</div></div>`;
-      }
-    }
-    if(state.bookingError){
-      slotsHtml += `<p class="closed-note">${state.bookingError}</p>`;
-    }
-
-    const canConfirm = chosen.length > 0 && state.date && state.slot;
-
-    panel.innerHTML = `
-      <h3>Votre réservation</h3>
-      ${itemsHtml}
-      <div class="field">
-        <label for="date-input">Date</label>
-        <input type="date" id="date-input" min="${minDate}" max="${maxDate}" value="${state.date}">
-      </div>
-      ${slotsHtml}
-      <div class="field">
-        <label for="name-input">Nom</label>
-        <input type="text" id="name-input" placeholder="Votre nom" value="${state.name || ''}">
-      </div>
-      <div class="field">
-        <label for="phone-input">Téléphone</label>
-        <input type="tel" id="phone-input" placeholder="06 12 34 56 78" value="${state.phone || ''}">
-      </div>
-      <button class="btn confirm-btn" id="confirm-btn" ${canConfirm ? '' : 'disabled'}>Simuler la réservation</button>
-    `;
-
-    const dateInput = panel.querySelector('#date-input');
-    dateInput.addEventListener('change', e => {
-      state.date = e.target.value;
-      state.slot = null;
-      state.bookingError = '';
-      const slots = generateSlots(state.date);
-      if(slots !== null){ fetchTakenSlots(state.date); } else { state.takenSlots = []; renderPanel(); }
-    });
-
-    panel.querySelectorAll('.slot-btn').forEach(btn => {
-      btn.addEventListener('click', () => { state.slot = btn.dataset.slot; renderPanel(); });
-    });
-
-    const nameInput = panel.querySelector('#name-input');
-    const phoneInput = panel.querySelector('#phone-input');
-    nameInput.addEventListener('input', e => { state.name = e.target.value; });
-    phoneInput.addEventListener('input', e => { state.phone = e.target.value; });
-
-    const confirmBtn = panel.querySelector('#confirm-btn');
-    if(confirmBtn){
-      confirmBtn.addEventListener('click', () => {
-        state.name = nameInput.value.trim() || 'Vous';
-        state.phone = phoneInput.value.trim();
-        state.confirmed = true;
-        renderPanel();
-      });
-    }
-  }
-
-
-  function renderConfirmation(panel){
-    const chosen = SERVICES.filter(s => state.selected.has(s.id));
-    const total = chosen.reduce((a,s) => a + s.price, 0);
-    const dateObj = new Date(state.date + 'T00:00:00');
-    const dateLabel = dateObj.toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long'});
-    panel.innerHTML = `
-      <div class="confirmation">
-        <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" stroke="#b3671f" stroke-width="1.4" fill="none"/><path d="M12 20l6 6 10-12" stroke="#b3671f" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h3>Rendez-vous confirmé</h3>
-        <p>${dateLabel} à ${state.slot}</p>
-        <p>${chosen.map(s => s.name).join(', ')} — ${total} €</p>
-        <p>Mode démo : aucun rendez-vous n’a été enregistré et aucun message n’a été envoyé.</p>
-        <button class="btn ghost" id="reset-btn">Nouvelle réservation</button>
-      </div>
-    `;
-    panel.querySelector('#reset-btn').addEventListener('click', () => {
-      state.selected.clear(); state.date=''; state.slot=null; state.confirmed=false;
-      listEl.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
-      renderPanel();
-    });
-  }
-
-  renderPanel();
+  listEl.innerHTML = cats.map(cat => `
+    <div class="cat-title">${cat}</div>
+    ${SERVICES.filter(s => s.cat === cat).map(s => `
+      <div class="service-row">
+        <div class="s-info">
+          <div class="s-name">${s.name}</div>
+          <div class="s-desc">${s.desc}</div>
+        </div>
+        <div class="s-meta"><strong>${s.price} €</strong>${s.duration} min</div>
+      </div>`).join('')}
+  `).join('');
 })();
 </script>
 
