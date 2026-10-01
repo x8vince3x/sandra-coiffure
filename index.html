@@ -339,9 +339,10 @@
 
 
   .service-overview{display:grid;grid-template-columns:1fr;gap:10px}
-  .service-group{background:#191919;border:1px solid rgba(225,29,46,.38)}
-  .service-group[open]{border-color:rgba(225,29,46,.85)}
-  .service-group summary{display:flex;align-items:center;gap:14px;list-style:none;cursor:pointer;padding:15px 17px;min-height:65px}
+  .service-group{background:#191919;border:1px solid rgba(225,29,46,.38);border-radius:999px;overflow:hidden;transition:border-color .2s,border-radius .2s}
+  .service-group[open]{border-color:rgba(225,29,46,.85);border-radius:20px}
+  .service-group summary{display:flex;align-items:center;gap:14px;list-style:none;cursor:pointer;padding:15px 17px;min-height:65px;border-radius:999px;transition:border-radius .2s}
+  .service-group[open] summary{border-radius:19px 19px 0 0}
   .service-group summary::-webkit-details-marker{display:none}
   .service-number{color:#ff5260;font-family:'Oswald',sans-serif;font-size:.8rem;letter-spacing:.12em}
   .service-heading{flex:1;color:#f4f0e8;font-family:'Oswald','Arial Narrow',sans-serif;font-size:1.15rem;text-transform:uppercase}
