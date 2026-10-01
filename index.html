@@ -337,6 +337,31 @@
   .booking-cta .confirm-btn{margin-top:20px;text-align:center}
   @media(max-width:520px){.wordmark{font-size:1.1rem}}
 
+
+  .service-overview{display:grid;gap:10px}
+  .service-group{background:#191919;border:1px solid rgba(225,29,46,.38)}
+  .service-group[open]{border-color:rgba(225,29,46,.85)}
+  .service-group summary{display:flex;align-items:center;gap:14px;list-style:none;cursor:pointer;padding:15px 17px;min-height:65px}
+  .service-group summary::-webkit-details-marker{display:none}
+  .service-number{color:#ff5260;font-family:'Oswald',sans-serif;font-size:.8rem;letter-spacing:.12em}
+  .service-heading{flex:1;color:#f4f0e8;font-family:'Oswald','Arial Narrow',sans-serif;font-size:1.15rem;text-transform:uppercase}
+  .service-heading small{display:block;margin-top:3px;color:#aaa59d;font-family:'Karla',sans-serif;font-size:.78rem;text-transform:none;letter-spacing:0}
+  .service-chevron{width:9px;height:9px;border-right:2px solid #ff5260;border-bottom:2px solid #ff5260;transform:rotate(45deg);transition:transform .18s;margin:0 4px 5px}
+  .service-group[open] .service-chevron{transform:rotate(225deg);margin-bottom:0}
+  .offer-list{list-style:none;margin:0;padding:0 17px 8px 45px}
+  .offer-list li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:14px;align-items:center;padding:11px 0;border-top:1px solid rgba(244,240,232,.1);font-size:.9rem}
+  .offer-name{color:#f4f0e8}
+  .offer-duration{color:#aaa59d;white-space:nowrap;font-size:.82rem}
+  .offer-list strong{color:#ff5260;white-space:nowrap;text-align:right;font-size:.9rem}
+  @media(max-width:520px){
+    .service-group summary{gap:10px;padding:13px 12px}
+    .service-heading{font-size:1rem}
+    .offer-list{padding:0 12px 7px}
+    .offer-list li{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;font-size:.84rem}
+    .offer-duration{grid-column:1;grid-row:2}
+    .offer-list strong{grid-column:2;grid-row:1/3}
+  }
+
 </style>
 </head>
 <body>
@@ -442,18 +467,97 @@
     <section>
       <div class="booking-intro">
         <h2 style="font-size:1.9rem; margin-bottom:12px;">Prestations &amp; réservation</h2>
-        <p style="color:#5a5346;">Sélectionnez une ou plusieurs prestations, puis choisissez une date et un horaire disponible. Vous pourrez ajuster votre sélection avant de confirmer.</p>
+        <p style="color:#c5c1b9;">Ouvrez une catégorie pour consulter les prestations, leurs durées et leurs tarifs.</p>
       </div>
 
       <p style="margin-top:18px;color:#c5c1b9;">Coiffure et prestations beauté : consultez le catalogue complet et les disponibilités.</p>
 
       <div class="booking-layout">
         <div class="service-overview">
-          <article><span>01</span><h3>Coiffure femme</h3><p>Coupes, brushing, balayage, mèches et coloration.</p></article>
-          <article><span>02</span><h3>Coiffure homme</h3><p>Coupes, dégradés, barbe et rasage.</p></article>
-          <article><span>03</span><h3>Enfants</h3><p>Coupes bébé, fillette et garçon.</p></article>
-          <article><span>04</span><h3>Beauté du regard</h3><p>Extensions de cils, remplissages et rehaussement avec soin et teinture.</p></article>
-          <article><span>05</span><h3>Maquillage permanent</h3><p>Création des sourcils et retouches.</p></article>
+          <details class="service-group">
+            <summary><span class="service-number">01</span><span class="service-heading">Forfaits balayage<small>Avec Sandra</small></span><span class="service-chevron" aria-hidden="true"></span></summary>
+            <ul class="offer-list">
+              <li><span class="offer-name">Balayage + patine + brushing — cheveux mi-longs</span><span class="offer-duration">3 h 15</span><strong>110 €</strong></li>
+              <li><span class="offer-name">Balayage + patine + brushing — cheveux longs</span><span class="offer-duration">4 h 15</span><strong>125 €</strong></li>
+              <li><span class="offer-name">Balayage + patine + brushing + coupe — cheveux mi-longs</span><span class="offer-duration">3 h 15</span><strong>124 €</strong></li>
+              <li><span class="offer-name">Balayage + patine + brushing + coupe — cheveux longs</span><span class="offer-duration">4 h 15</span><strong>139 €</strong></li>
+              <li><span class="offer-name">Shampooing</span><span class="offer-duration">5 min</span><strong>3 €</strong></li>
+            </ul>
+          </details>
+          <details class="service-group">
+            <summary><span class="service-number">02</span><span class="service-heading">Forfaits mèches<small>Avec Sandra</small></span><span class="service-chevron" aria-hidden="true"></span></summary>
+            <ul class="offer-list">
+              <li><span class="offer-name">Mèches + patine + brushing — cheveux courts</span><span class="offer-duration">1 h 40</span><strong>85 €</strong></li>
+              <li><span class="offer-name">Mèches + platine + brushing — cheveux mi-longs</span><span class="offer-duration">2 h 20</span><strong>95 €</strong></li>
+              <li><span class="offer-name">Mèches + patine + brushing — cheveux longs</span><span class="offer-duration">2 h 45</span><strong>110 €</strong></li>
+              <li><span class="offer-name">Mèches + patine + coupe + brushing — cheveux courts</span><span class="offer-duration">2 h 10</span><strong>99 €</strong></li>
+              <li><span class="offer-name">Mèches + patine + coupe + brushing — cheveux mi-longs</span><span class="offer-duration">2 h 20</span><strong>109 €</strong></li>
+            </ul>
+          </details>
+          <details class="service-group">
+            <summary><span class="service-number">03</span><span class="service-heading">Forfaits couleurs<small>Avec Sandra</small></span><span class="service-chevron" aria-hidden="true"></span></summary>
+            <ul class="offer-list">
+              <li><span class="offer-name">Coloration + brushing — cheveux courts</span><span class="offer-duration">1 h 30</span><strong>À partir de 49 €</strong></li>
+              <li><span class="offer-name">Coloration + brushing — cheveux mi-longs</span><span class="offer-duration">1 h 40</span><strong>À partir de 65 €</strong></li>
+              <li><span class="offer-name">Coloration + brushing — cheveux longs</span><span class="offer-duration">2 h</span><strong>À partir de 75 €</strong></li>
+              <li><span class="offer-name">Coloration + brushing + coupe — cheveux courts</span><span class="offer-duration">1 h 40</span><strong>À partir de 72 €</strong></li>
+              <li><span class="offer-name">Coloration + brushing + coupe — cheveux mi-longs</span><span class="offer-duration">1 h 50</span><strong>À partir de 78 €</strong></li>
+            </ul>
+          </details>
+          <details class="service-group">
+            <summary><span class="service-number">04</span><span class="service-heading">Coiffure femme<small>Avec Sandra</small></span><span class="service-chevron" aria-hidden="true"></span></summary>
+            <ul class="offer-list">
+              <li><span class="offer-name">Shampooing coupe coiffage — cheveux courts</span><span class="offer-duration">30 min</span><strong>30 €</strong></li>
+              <li><span class="offer-name">Shampooing coupe coiffage — cheveux mi-longs</span><span class="offer-duration">30 min</span><strong>38 €</strong></li>
+              <li><span class="offer-name">Shampooing coupe coiffage — cheveux longs</span><span class="offer-duration">45 min</span><strong>45 €</strong></li>
+              <li><span class="offer-name">Brushing — cheveux courts</span><span class="offer-duration">30 min</span><strong>25 €</strong></li>
+              <li><span class="offer-name">Brushing — cheveux mi-longs</span><span class="offer-duration">30 min</span><strong>30 €</strong></li>
+            </ul>
+          </details>
+          <details class="service-group">
+            <summary><span class="service-number">05</span><span class="service-heading">Coiffure homme<small>Avec Sandra</small></span><span class="service-chevron" aria-hidden="true"></span></summary>
+            <ul class="offer-list">
+              <li><span class="offer-name">Coupe classique sans shampooing</span><span class="offer-duration">30 min</span><strong>16 €</strong></li>
+              <li><span class="offer-name">Dégradé américain, taper, etc.</span><span class="offer-duration">30 min</span><strong>23 €</strong></li>
+              <li><span class="offer-name">Coupe + traçage barbe</span><span class="offer-duration">30 min</span><strong>28 €</strong></li>
+              <li><span class="offer-name">Traçage barbe</span><span class="offer-duration">15 min</span><strong>12 €</strong></li>
+              <li><span class="offer-name">Rasage complet à l’ancienne</span><span class="offer-duration">30 min</span><strong>25 €</strong></li>
+            </ul>
+          </details>
+          <details class="service-group">
+            <summary><span class="service-number">06</span><span class="service-heading">Coupes enfant<small>Avec Sandra</small></span><span class="service-chevron" aria-hidden="true"></span></summary>
+            <ul class="offer-list">
+              <li><span class="offer-name">Coupe bébé jusqu’à 2 ans</span><span class="offer-duration">15 min</span><strong>8 €</strong></li>
+              <li><span class="offer-name">Coupe fillette jusqu’à 12 ans</span><span class="offer-duration">15 min</span><strong>15 €</strong></li>
+              <li><span class="offer-name">Coupe garçon jusqu’à 12 ans</span><span class="offer-duration">15 min</span><strong>12 €</strong></li>
+              <li><span class="offer-name">Dégradé, taper, etc. jusqu’à 12 ans</span><span class="offer-duration">30 min</span><strong>20 €</strong></li>
+            </ul>
+          </details>
+          <details class="service-group">
+            <summary><span class="service-number">07</span><span class="service-heading">Extensions de cils<small>Avec Lauralyne</small></span><span class="service-chevron" aria-hidden="true"></span></summary>
+            <ul class="offer-list">
+              <li><span class="offer-name">Pose complète russe</span><span class="offer-duration">2 h 30</span><strong>90 €</strong></li>
+              <li><span class="offer-name">Remplissage 2 semaines russe</span><span class="offer-duration">1 h 30</span><strong>45 €</strong></li>
+              <li><span class="offer-name">Remplissage 3 semaines russe</span><span class="offer-duration">1 h 30</span><strong>55 €</strong></li>
+              <li><span class="offer-name">Remplissage 4 semaines russe</span><span class="offer-duration">1 h 45</span><strong>65 €</strong></li>
+              <li><span class="offer-name">Pose complète mixte</span><span class="offer-duration">2 h</span><strong>75 €</strong></li>
+            </ul>
+          </details>
+          <details class="service-group">
+            <summary><span class="service-number">08</span><span class="service-heading">Lash bot<small>Avec Lauralyne</small></span><span class="service-chevron" aria-hidden="true"></span></summary>
+            <ul class="offer-list">
+              <li><span class="offer-name">Réhaussement de cil + soin + teinture</span><span class="offer-duration">1 h</span><strong>50 €</strong></li>
+            </ul>
+          </details>
+          <details class="service-group">
+            <summary><span class="service-number">09</span><span class="service-heading">Maquillage permanent<small>Avec Lauralyne</small></span><span class="service-chevron" aria-hidden="true"></span></summary>
+            <ul class="offer-list">
+              <li><span class="offer-name">Création sourcils</span><span class="offer-duration">4 h</span><strong>180 €</strong></li>
+              <li><span class="offer-name">Retouche</span><span class="offer-duration">2 h</span><strong>80 €</strong></li>
+              <li><span class="offer-name">Retouche 6 à 8 mois</span><span class="offer-duration">30 min</span><strong>90 €</strong></li>
+              <li><span class="offer-name">Retouche 12 mois et plus</span><span class="offer-duration">2 h</span><strong>110 €</strong></li>
+            </ul>
+          </details>
         </div>
         <aside class="panel booking-cta">
           <h3>Réservation en ligne</h3>
