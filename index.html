@@ -654,13 +654,14 @@
     }
     const items = [...chosen.values()];
     const totalMinutes = items.reduce((total, item) => {
-      const hours = item.duration.match(/(\\d+)\\s*h/);
-      const minutes = item.duration.match(/(\\d+)\\s*min/);
-      return total + (hours ? Number(hours[1]) * 60 : 0) + (minutes ? Number(minutes[1]) : 0);
+      const numbers = item.duration.match(/[0-9]+/g) || [];
+      const hours = item.duration.includes('h') ? Number(numbers[0] || 0) : 0;
+      const minutes = item.duration.includes('h') ? Number(numbers[1] || 0) : Number(numbers[0] || 0);
+      return total + hours * 60 + minutes;
     }, 0);
     const totalPrice = items.reduce((total, item) => {
-      const match = item.price.match(/([\\d,]+)/);
-      return total + (match ? Number(match[1].replace(',', '.')) : 0);
+      const match = item.price.match(/[0-9]+/);
+      return total + (match ? Number(match[0]) : 0);
     }, 0);
     const approximate = items.some(item => item.price.toLowerCase().includes('partir'));
     const formattedDuration = totalMinutes >= 60
@@ -676,7 +677,7 @@
     target.replaceChildren(list);
     const total = document.createElement('p');
     total.className = 'chosen-total';
-    total.textContent = 'Durée indicative : ' + formattedDuration + ' · Total indicatif : ' + (approximate ? 'à partir de ' : '') + totalPrice.toFixed(2).replace('.', ',') + ' €';
+    total.textContent = 'Durée indicative : ' + formattedDuration + ' · Total indicatif : ' + (approximate ? 'à partir de ' : '') + totalPrice + ' €';
     target.appendChild(total);
   }
 
