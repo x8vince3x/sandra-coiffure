@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{color-scheme:light;--gold:#b08d45;--gold-dark:#806326;--ink:#211d19;--paper:#f8f4eb;--line:#dfd5c1}
+    *{box-sizing:border-box}
+    body{margin:0;padding:18px;background:var(--paper);color:var(--ink);font:16px/1.5 Arial,sans-serif}
+    main{max-width:680px;margin:auto}
+    h1,h2{margin:0 0 10px;color:var(--gold-dark);font-family:Georgia,serif}
+    h1{font-size:1.45rem} h2{font-size:1.05rem}
+    p{margin:0 0 12px}
+    .card{padding:18px;background:#fffdf8;border:1px solid var(--line);border-radius:16px}
+    .selected{margin:14px 0;padding:12px;background:#f1eadb;border-radius:10px}
+    .selected ul{margin:8px 0 0;padding-left:18px}
+    .selected li{margin:3px 0}
+    .selected span{float:right;color:#6e6250}
+    .field{margin:12px 0}
+    label{display:block;margin-bottom:5px;font-weight:700;color:var(--gold-dark)}
+    input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:white;color:var(--ink);font:inherit}
+    button{border:0;border-radius:999px;padding:11px 17px;background:var(--gold);color:var(--ink);font-weight:700;font-size:.94rem;cursor:pointer}
+    button:disabled{opacity:.5;cursor:wait}
+    .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;margin:12px 0}
+    .slots button{padding:9px;background:white;border:1px solid var(--gold);color:var(--gold-dark)}
+    .slots button.selected{background:var(--gold-dark);color:white}
+    .status{min-height:24px;margin-top:12px;color:var(--gold-dark)}
+    .error{padding:12px;background:#fff2ef;border:1px solid #e7b6aa;border-radius:9px;color:#832e25}
+    .honeypot{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+    @media(max-width:480px){body{padding:12px}.card{padding:14px}}
+  </style>
+</head>
+<body>
+<main>
+  <section class="card" id="booking-card">
+    <? if (errorMessage) { ?>
+      <p class="error"><?= errorMessage ?></p>
+    <? } else { ?>
+      <h1>Choisir un créneau</h1>
+      <p>Durée totale de votre sélection : <strong><?= durationMinutes ?> min</strong>. Le créneau est vérifié dans l’agenda du salon.</p>
+      <div class="selected"><strong>Prestations choisies</strong><ul><?!= summaryHtml ?></ul></div>
+      <div class="field">
+        <label for="booking-date">Date</label>
+        <input id="booking-date" type="date" required>
+      </div>
+      <button id="load-slots" type="button">Voir les disponibilités</button>
+      <div id="slots" class="slots" aria-label="Créneaux disponibles"></div>
+      <form id="booking-form">
+        <input id="selected-time" type="hidden" required>
+        <div class="field"><label for="client-name">Nom et prénom</label><input id="client-name" autocomplete="name" required maxlength="80"></div>
+        <div class="field"><label for="client-email">E-mail</label><input id="client-email" type="email" autocomplete="email" required maxlength="160"></div>
+        <div class="field"><label for="client-phone">Téléphone</label><input id="client-phone" type="tel" autocomplete="tel" required maxlength="40"></div>
+        <div class="honeypot" aria-hidden="true"><label for="website">Ne pas remplir</label><input id="website" tabindex="-1" autocomplete="off"></div>
+        <button id="submit-booking" type="submit">Confirmer le rendez-vous</button>
+      </form>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+      <script>
+        const SERVICE_IDS = <?!= idsJson ?>;
+        const dateInput = document.getElementById('booking-date');
+        const slotBox = document.getElementById('slots');
+        const timeInput = document.getElementById('selected-time');
+        const statusBox = document.getElementById('status');
+        const loadButton = document.getElementById('load-slots');
+        const submitButton = document.getElementById('submit-booking');
+        const form = document.getElementById('booking-form');
+        const today = new Date();
+        const fmt = d => [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+        dateInput.min = fmt(today);
+        const maxDate = new Date(today); maxDate.setDate(maxDate.getDate()+90); dateInput.max = fmt(maxDate); dateInput.value=fmt(today);
+
+        function showSlots(){
+          slotBox.replaceChildren();timeInput.value='';statusBox.textContent='Recherche des créneaux...';loadButton.disabled=true;
+          google.script.run.withSuccessHandler(result=>{
+            loadButton.disabled=false;slotBox.replaceChildren();
+            if(!result.ok){statusBox.textContent=result.error;return}
+            if(!result.slots.length){statusBox.textContent='Aucun créneau disponible à cette date.';return}
+            statusBox.textContent=result.slots.length+' créneau(x) disponible(s). Choisissez une heure.';
+            result.slots.forEach(time=>{
+              const button=document.createElement('button');button.type='button';button.textContent=time;
+              button.addEventListener('click',()=>{slotBox.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));button.classList.add('selected');timeInput.value=time});
+              slotBox.appendChild(button);
+            });
+          }).withFailureHandler(error=>{loadButton.disabled=false;statusBox.textContent='Erreur : '+error.message}).getAvailableSlots(dateInput.value,SERVICE_IDS);
+        }
+        dateInput.addEventListener('change',()=>{slotBox.replaceChildren();timeInput.value='';statusBox.textContent=''});
+        loadButton.addEventListener('click',showSlots);
+        form.addEventListener('submit',event=>{
+          event.preventDefault();
+          if(!timeInput.value){statusBox.textContent='Choisissez d’abord un créneau.';return}
+          submitButton.disabled=true;statusBox.textContent='Enregistrement du rendez-vous...';
+          const payload={date:dateInput.value,time:timeInput.value,ids:SERVICE_IDS,name:document.getElementById('client-name').value,email:document.getElementById('client-email').value,phone:document.getElementById('client-phone').value,website:document.getElementById('website').value};
+          google.script.run.withSuccessHandler(result=>{
+            submitButton.disabled=false;
+            if(!result.ok){statusBox.textContent=result.error;if(result.error.indexOf('vient d’être réservé')>=0)showSlots();return}
+            document.getElementById('booking-card').innerHTML='<h1>Rendez-vous confirmé</h1><p>'+result.message+'</p><p><strong>'+result.start+' – '+result.end+'</strong></p>';
+          }).withFailureHandler(error=>{submitButton.disabled=false;statusBox.textContent='Erreur : '+error.message}).createBooking(payload);
+        });
+        showSlots();
+      </script>
+    <? } ?>
+  </section>
+</main>
+</body>
+</html>
