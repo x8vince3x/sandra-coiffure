@@ -458,6 +458,24 @@
   .cta-band,.cta-band .section-head h2,.cta-band .section-head p,
   .cta-band .info-list,.cta-band .info-list li{color:#f5f0e6!important}
 
+
+  #page-accueil{position:relative;isolation:isolate;background:transparent!important}
+  .home-slideshow{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:#ece4d4}
+  .home-slideshow::after{content:"";position:absolute;inset:0;background:rgba(245,240,230,.76)}
+  .home-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:salonCrossfade 64s infinite cubic-bezier(.4,0,.2,1)}
+  .home-slide:nth-child(1){animation-delay:0s}
+  .home-slide:nth-child(2){animation-delay:16s}
+  .home-slide:nth-child(3){animation-delay:32s}
+  .home-slide:nth-child(4){animation-delay:48s}
+  @keyframes salonCrossfade{
+    0%,20%{opacity:1}
+    25%,95%{opacity:0}
+    100%{opacity:1}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .home-slide{animation:none!important;opacity:0!important}
+    .home-slide:first-child{opacity:1!important}
+  }
 </style>
 </head>
 <body>
@@ -473,6 +491,13 @@
 
   <!-- ================= PAGE 1 : ACCUEIL ================= -->
   <div class="page active" id="page-accueil">
+    <div class="home-slideshow" aria-hidden="true">
+      <img class="home-slide" src="https://res.cloudinary.com/planity/image/upload/t_d_main,f_auto/zk9k87b9emyql1ma8msz" alt="">
+      <img class="home-slide" src="https://res.cloudinary.com/planity/image/upload/t_d_main,f_auto/c4xvtqcnewfn0ycxr1io" alt="">
+      <img class="home-slide" src="https://res.cloudinary.com/planity/image/upload/t_d_main,f_auto/nigummjtcxrxdgyp0k3z" alt="">
+      <img class="home-slide" src="https://res.cloudinary.com/planity/image/upload/t_d_main,f_auto/ugouysmdq8setyvjkzxo" alt="">
+    </div>
+
 
     <section class="hero">
       <div class="hero-grid">
@@ -506,18 +531,7 @@
       <svg viewBox="0 0 600 24"><path d="M0 12 Q 75 0 150 12 T 300 12 T 450 12 T 600 12" stroke="#cdbd9c" stroke-width="1" fill="none"/></svg>
     </div>
 
-    <section class="salon-gallery" aria-labelledby="salon-gallery-title">
-      <div class="section-head">
-        <h2 id="salon-gallery-title">Le salon en images</h2>
-        <p>Découvrez l’univers de VL’BEAUTY &amp; SV COIFFURE.</p>
-      </div>
-      <div class="salon-gallery-grid">
-        <img src="https://res.cloudinary.com/planity/image/upload/t_d_main,f_auto/zk9k87b9emyql1ma8msz" alt="VL’BEAUTY &amp; SV COIFFURE — photo du salon" loading="lazy">
-        <img src="https://res.cloudinary.com/planity/image/upload/t_d_main,f_auto/c4xvtqcnewfn0ycxr1io" alt="Vue du salon VL’BEAUTY &amp; SV COIFFURE" loading="lazy">
-        <img src="https://res.cloudinary.com/planity/image/upload/t_d_main,f_auto/nigummjtcxrxdgyp0k3z" alt="Espace beauté de VL’BEAUTY &amp; SV COIFFURE" loading="lazy">
-        <img src="https://res.cloudinary.com/planity/image/upload/t_d_main,f_auto/ugouysmdq8setyvjkzxo" alt="Aménagement du salon VL’BEAUTY &amp; SV COIFFURE" loading="lazy">
-      </div>
-    </section>
+
 
     <section class="philosophy" id="philosophie">
       <h2>Coiffure, barber et beauté</h2>
