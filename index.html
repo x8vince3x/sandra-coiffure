@@ -461,8 +461,8 @@
 
   #page-accueil{position:relative;isolation:isolate;background:transparent!important}
   .home-slideshow{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:#ece4d4}
-  .home-slideshow::after{content:"";position:absolute;inset:0;background:rgba(245,240,230,.76)}
-  .home-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation-duration:64s;animation-iteration-count:infinite;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  .home-slideshow::after{content:"";position:absolute;inset:0;background:rgba(245,240,230,.70)}
+  .home-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;filter:brightness(1.22) saturate(.58);animation-duration:56s;animation-iteration-count:infinite;animation-timing-function:cubic-bezier(.4,0,.2,1)}
   .home-slide:nth-child(1){animation-name:salonCrossfade1}
   .home-slide:nth-child(2){animation-name:salonCrossfade2}
   .home-slide:nth-child(3){animation-name:salonCrossfade3}
