@@ -465,6 +465,30 @@
   .review-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
   .review-actions .btn{margin:0}
   .review-note{margin-top:13px!important;font-size:.82rem;color:#806326!important}
+
+  .reviews-section{padding:54px 20px;background:var(--bone-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .reviews-section .section-head{margin:0 auto 24px;text-align:center}
+  .reviews-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;max-width:1000px;margin:0 auto}
+  .review-form,.review-list-wrap{padding:24px;background:var(--bone);border:1px solid var(--line);border-radius:14px}
+  .review-form h3,.review-list-wrap h3{margin:0 0 14px;color:#806326!important}
+  .review-label{display:block;margin:13px 0 6px;font-size:.9rem;font-weight:700;color:#806326}
+  .review-form input[type=text],.review-form textarea{display:block;width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#fffdf8;color:var(--ink);font:inherit}
+  .review-form textarea{resize:vertical}
+  .rating-picker{display:flex;gap:4px}
+  .rating-picker button{border:0;background:transparent;padding:0 2px;color:#b9b1a2;font-size:2rem;line-height:1;cursor:pointer}
+  .rating-picker button.is-active{color:#c3a45f}
+  .review-submit{margin-top:16px}
+  .review-note{margin-top:12px!important;font-size:.82rem;color:#665b4d!important}
+  .review-list{display:grid;gap:12px}
+  .review-empty{padding:16px;border:1px dashed var(--line);border-radius:10px;color:#665b4d}
+  .review-card{padding:16px;border:1px solid var(--line);border-radius:10px;background:#fffdf8}
+  .review-card-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+  .review-card-name{font-weight:700;color:#806326}
+  .review-card-stars{color:#b18c3c;letter-spacing:.08em;white-space:nowrap}
+  .review-card-date{font-size:.78rem;color:#766b5d;margin-top:3px}
+  .review-card-message{margin-top:10px;color:#3d372f;white-space:pre-wrap;overflow-wrap:anywhere}
+  @media(max-width:760px){.reviews-layout{grid-template-columns:1fr}}
+  @media(max-width:480px){.review-form,.review-list-wrap{padding:18px}.rating-picker button{font-size:1.8rem}}
 </style>
 </head>
 <body>
@@ -554,16 +578,35 @@
       </div>
     </section>
 
-    <section class="google-reviews" aria-labelledby="google-reviews-title">
+    <section class="reviews-section" aria-labelledby="reviews-title">
       <div class="section-head">
-        <h2 id="google-reviews-title">Votre avis compte</h2>
-        <p>Vous êtes passé(e) au salon ? Consultez les avis ou partagez votre expérience sur Google.</p>
+        <h2 id="reviews-title">Les avis du salon</h2>
+        <p>Partagez votre expérience avec l’équipe.</p>
       </div>
-      <div class="review-actions">
-        <a class="btn review-btn" href="https://www.google.com/maps/search/?api=1&amp;query=VL%27BEAUTY%20%26%20SV%20COIFFURE%2C%2044%20Rue%20de%20la%20R%C3%A9publique%2C%2008330%20Vrigne-aux-Bois" target="_blank" rel="noopener noreferrer">Lire les avis Google</a>
-        <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&amp;query=VL%27BEAUTY%20%26%20SV%20COIFFURE%2C%2044%20Rue%20de%20la%20R%C3%A9publique%2C%2008330%20Vrigne-aux-Bois" target="_blank" rel="noopener noreferrer">Déposer un avis</a>
+      <div class="reviews-layout">
+        <form id="review-form" class="review-form">
+          <h3>Déposer un avis</h3>
+          <label class="review-label">Votre note</label>
+          <div class="rating-picker" role="group" aria-label="Choisir une note de 1 à 5 étoiles">
+            <button type="button" data-rating="1" aria-label="1 étoile" aria-pressed="false">★</button>
+            <button type="button" data-rating="2" aria-label="2 étoiles" aria-pressed="false">★</button>
+            <button type="button" data-rating="3" aria-label="3 étoiles" aria-pressed="false">★</button>
+            <button type="button" data-rating="4" aria-label="4 étoiles" aria-pressed="false">★</button>
+            <button type="button" data-rating="5" aria-label="5 étoiles" aria-pressed="false">★</button>
+          </div>
+          <input id="review-rating" name="rating" type="hidden" required>
+          <label class="review-label" for="review-name">Votre prénom</label>
+          <input id="review-name" name="name" type="text" maxlength="40" autocomplete="given-name" required>
+          <label class="review-label" for="review-message">Votre avis</label>
+          <textarea id="review-message" name="message" rows="4" maxlength="600" required></textarea>
+          <button class="btn review-submit" type="submit">Publier mon avis</button>
+          <p class="review-note" id="review-status" aria-live="polite">Les avis sont pour l’instant enregistrés uniquement sur cet appareil.</p>
+        </form>
+        <div class="review-list-wrap">
+          <h3>Avis partagés ici</h3>
+          <div id="review-list" class="review-list" aria-live="polite"></div>
+        </div>
       </div>
-      <p class="review-note">La fiche Google s’ouvrira pour consulter les avis ou en rédiger un.</p>
     </section>
 
     <section class="cta-band">
@@ -742,6 +785,91 @@
       renderSelection();
     });
   });
+
+
+  const reviewStorageKey = 'vlbeauty-reviews-v1';
+  const reviewForm = document.getElementById('review-form');
+  const reviewStatus = document.getElementById('review-status');
+  const ratingField = document.getElementById('review-rating');
+  const ratingButtons = [...document.querySelectorAll('.rating-picker button')];
+
+  ratingButtons.forEach(button => button.addEventListener('click', () => {
+    ratingField.value = button.dataset.rating;
+    ratingButtons.forEach(star => {
+      const active = Number(star.dataset.rating) <= Number(ratingField.value);
+      star.classList.toggle('is-active', active);
+      star.setAttribute('aria-pressed', String(Number(star.dataset.rating) === Number(ratingField.value)));
+    });
+  }));
+
+  function loadLocalReviews() {
+    try { return JSON.parse(localStorage.getItem(reviewStorageKey) || '[]'); }
+    catch { return []; }
+  }
+
+  function renderLocalReviews() {
+    const target = document.getElementById('review-list');
+    const reviews = loadLocalReviews().sort((a,b) => b.createdAt - a.createdAt);
+    target.replaceChildren();
+    if (!reviews.length) {
+      const empty = document.createElement('p');
+      empty.className = 'review-empty';
+      empty.textContent = 'Aucun avis publié sur cet appareil pour le moment. Soyez le premier ou la première à partager votre expérience.';
+      target.appendChild(empty);
+      return;
+    }
+    reviews.forEach(review => {
+      const card = document.createElement('article');
+      card.className = 'review-card';
+      const head = document.createElement('div');
+      head.className = 'review-card-head';
+      const identity = document.createElement('div');
+      const name = document.createElement('div');
+      name.className = 'review-card-name';
+      name.textContent = review.name;
+      const date = document.createElement('div');
+      date.className = 'review-card-date';
+      date.textContent = new Date(review.createdAt).toLocaleDateString('fr-FR');
+      identity.append(name,date);
+      const stars = document.createElement('div');
+      stars.className = 'review-card-stars';
+      stars.setAttribute('aria-label', review.rating + ' sur 5 étoiles');
+      stars.textContent = '★'.repeat(review.rating) + '☆'.repeat(5-review.rating);
+      head.append(identity,stars);
+      const message = document.createElement('p');
+      message.className = 'review-card-message';
+      message.textContent = review.message;
+      card.append(head,message);
+      target.appendChild(card);
+    });
+  }
+
+  reviewForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!ratingField.value) {
+      reviewStatus.textContent = 'Choisissez une note avant de publier votre avis.';
+      return;
+    }
+    const formData = new FormData(reviewForm);
+    const reviews = loadLocalReviews();
+    reviews.push({
+      name: String(formData.get('name')).trim(),
+      message: String(formData.get('message')).trim(),
+      rating: Number(ratingField.value),
+      createdAt: Date.now()
+    });
+    try {
+      localStorage.setItem(reviewStorageKey, JSON.stringify(reviews));
+      reviewForm.reset();
+      ratingField.value = '';
+      ratingButtons.forEach(star => { star.classList.remove('is-active'); star.setAttribute('aria-pressed','false'); });
+      reviewStatus.textContent = 'Merci ! Votre avis apparaît dans la liste sur cet appareil.';
+      renderLocalReviews();
+    } catch {
+      reviewStatus.textContent = 'Impossible d’enregistrer cet avis dans le navigateur.';
+    }
+  });
+  renderLocalReviews();
 
   function renderSelection() {
     const target = document.getElementById('selection-summary');
