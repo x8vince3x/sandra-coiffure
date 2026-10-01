@@ -462,16 +462,15 @@
   #page-accueil{position:relative;isolation:isolate;background:transparent!important}
   .home-slideshow{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:#ece4d4}
   .home-slideshow::after{content:"";position:absolute;inset:0;background:rgba(245,240,230,.76)}
-  .home-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:salonCrossfade 64s infinite cubic-bezier(.4,0,.2,1)}
-  .home-slide:nth-child(1){animation-delay:0s}
-  .home-slide:nth-child(2){animation-delay:16s}
-  .home-slide:nth-child(3){animation-delay:32s}
-  .home-slide:nth-child(4){animation-delay:48s}
-  @keyframes salonCrossfade{
-    0%,20%{opacity:1}
-    25%,95%{opacity:0}
-    100%{opacity:1}
-  }
+  .home-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation-duration:64s;animation-iteration-count:infinite;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  .home-slide:nth-child(1){animation-name:salonCrossfade1}
+  .home-slide:nth-child(2){animation-name:salonCrossfade2}
+  .home-slide:nth-child(3){animation-name:salonCrossfade3}
+  .home-slide:nth-child(4){animation-name:salonCrossfade4}
+  @keyframes salonCrossfade1{0%,20%{opacity:1}25%,95%{opacity:0}100%{opacity:1}}
+  @keyframes salonCrossfade2{0%,19.9%{opacity:0}25%,45%{opacity:1}50%,100%{opacity:0}}
+  @keyframes salonCrossfade3{0%,44.9%{opacity:0}50%,70%{opacity:1}75%,100%{opacity:0}}
+  @keyframes salonCrossfade4{0%,69.9%{opacity:0}75%,95%{opacity:1}100%{opacity:0}}
   @media(prefers-reduced-motion:reduce){
     .home-slide{animation:none!important;opacity:0!important}
     .home-slide:first-child{opacity:1!important}
