@@ -865,7 +865,7 @@
       return;
     }
     const ids = [...chosen.keys()];
-    bookingLink.href = 'https://script.google.com/macros/s/AKfycbwk0HnQfks8wff9nQvxiTQDV5TmfnjVXhdsYrwWknPjdrEfuS5bJVTyF_OzWhi5PaMj/exec?ids=' + encodeURIComponent(JSON.stringify(ids));
+    bookingLink.href = 'https://script.google.com/macros/s/AKfycbydl9bXPD4QzTAB9DdWdZvupF3HkcHeV7BLslYgKig-BWpLXT_02AC1zEM55wTj7qLF/exec?ids=' + encodeURIComponent(JSON.stringify(ids));
     bookingLink.setAttribute('aria-disabled', 'false');
     bookingLink.textContent = 'Choisir un créneau';
     const items = [...chosen.values()];
