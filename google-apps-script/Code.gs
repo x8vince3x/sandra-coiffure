@@ -11,22 +11,22 @@ const SERVICE_CATALOG = [
   {
     "id": "0",
     "name": "Balayage + patine + brushing - Cheveux mi longs",
-    "minutes": 180
+    "minutes": 195
   },
   {
     "id": "1",
     "name": "Balayage + patine + brushing - Cheveux longs",
-    "minutes": 240
+    "minutes": 255
   },
   {
     "id": "2",
     "name": "Balayage + patine + brushing + coupe - Cheveux mi longs",
-    "minutes": 180
+    "minutes": 195
   },
   {
     "id": "3",
     "name": "Balayage + patine + brushing + coupe - Cheveux longs",
-    "minutes": 240
+    "minutes": 255
   },
   {
     "id": "4",
@@ -56,12 +56,12 @@ const SERVICE_CATALOG = [
   {
     "id": "9",
     "name": "Mèches + patine + brushing - Cheveux courts",
-    "minutes": 60
+    "minutes": 100
   },
   {
     "id": "10",
     "name": "Mèches + platine + brushing - Cheveux mi longs",
-    "minutes": 120
+    "minutes": 165
   },
   {
     "id": "11",
@@ -71,12 +71,12 @@ const SERVICE_CATALOG = [
   {
     "id": "12",
     "name": "Mèches + patine + coupe + brushing - Cheveux courts",
-    "minutes": 120
+    "minutes": 165
   },
   {
     "id": "13",
     "name": "Mèches + patine + coupe + brushing - Cheveux mi longs",
-    "minutes": 120
+    "minutes": 175
   },
   {
     "id": "14",
@@ -111,52 +111,52 @@ const SERVICE_CATALOG = [
   {
     "id": "20",
     "name": "Coloration + brushing - Cheveux courts",
-    "minutes": 60
+    "minutes": 90
   },
   {
     "id": "21",
     "name": "Coloration + brushing - Cheveux mi-long",
-    "minutes": 60
+    "minutes": 100
   },
   {
     "id": "22",
     "name": "Coloration + brushing - Cheveux longs",
-    "minutes": 60
+    "minutes": 110
   },
   {
     "id": "23",
     "name": "Coloration + brushing + coupe - Cheveux courts",
-    "minutes": 60
+    "minutes": 105
   },
   {
     "id": "24",
     "name": "Coloration + brushing + coupe - Cheveux mi-long",
-    "minutes": 60
+    "minutes": 100
   },
   {
     "id": "25",
     "name": "Coloration + brushing + coupe - Cheveux longs",
-    "minutes": 60
+    "minutes": 110
   },
   {
     "id": "26",
     "name": "Coloration + mèches + brushing - Cheveux courts",
-    "minutes": 120
+    "minutes": 125
   },
   {
     "id": "27",
     "name": "Coloration + mèches + brushing - Cheveux mi-longs",
-    "minutes": 120
+    "minutes": 170
   },
   {
     "id": "28",
     "name": "Coloration + mèches + brushing - Cheveux longs",
-    "minutes": 180
+    "minutes": 215
   },
   {
     "id": "29",
     "name": "Coloration + mèches + brushing + coupe - Cheveux courts",
-    "minutes": 120
+    "minutes": 135
   },
   {
     "id": "30",
@@ -166,7 +166,7 @@ const SERVICE_CATALOG = [
   {
     "id": "31",
     "name": "Coloration + mèches + brushing + coupe - Cheveux longs",
-    "minutes": 180
+    "minutes": 215
   },
   {
     "id": "32",
@@ -341,17 +341,17 @@ const SERVICE_CATALOG = [
   {
     "id": "66",
     "name": "Coupe + décoloration",
-    "minutes": 120
+    "minutes": 155
   },
   {
     "id": "67",
     "name": "Coupe + permanente",
-    "minutes": 60
+    "minutes": 95
   },
   {
     "id": "68",
     "name": "Coupe + mèches",
-    "minutes": 60
+    "minutes": 75
   },
   {
     "id": "69",
@@ -376,22 +376,22 @@ const SERVICE_CATALOG = [
   {
     "id": "73",
     "name": "👀 POSE COMPLETE RUSSE",
-    "minutes": 120
+    "minutes": 150
   },
   {
     "id": "74",
     "name": "Remplissage 2 semaines russe",
-    "minutes": 60
+    "minutes": 90
   },
   {
     "id": "75",
     "name": "Remplissage 3 semaines russe",
-    "minutes": 60
+    "minutes": 90
   },
   {
     "id": "76",
     "name": "Remplissage 4 semaines russe",
-    "minutes": 60
+    "minutes": 105
   },
   {
     "id": "77",
@@ -401,22 +401,22 @@ const SERVICE_CATALOG = [
   {
     "id": "78",
     "name": "Remplissage 2 semaines mixte",
-    "minutes": 60
+    "minutes": 90
   },
   {
     "id": "79",
     "name": "Remplissage 3 semaines mixte",
-    "minutes": 60
+    "minutes": 90
   },
   {
     "id": "80",
     "name": "Remplissage 4 semaines mixte",
-    "minutes": 60
+    "minutes": 105
   },
   {
     "id": "81",
     "name": "👀 POSE COMPLETE CIL A CIL",
-    "minutes": 60
+    "minutes": 90
   },
   {
     "id": "82",
@@ -426,27 +426,27 @@ const SERVICE_CATALOG = [
   {
     "id": "83",
     "name": "Remplissage 3 semaines cil a cil",
-    "minutes": 60
+    "minutes": 90
   },
   {
     "id": "84",
     "name": "Remplissage 4 semaines cil a cil",
-    "minutes": 60
+    "minutes": 105
   },
   {
     "id": "85",
     "name": "👀 POSE COMPLETE LINER",
-    "minutes": 120
+    "minutes": 150
   },
   {
     "id": "86",
     "name": "Remplissage 2 semaines LINER",
-    "minutes": 60
+    "minutes": 90
   },
   {
     "id": "87",
     "name": "Remplissage 3 semaines LINER",
-    "minutes": 60
+    "minutes": 105
   },
   {
     "id": "88",
@@ -466,7 +466,7 @@ const SERVICE_CATALOG = [
   {
     "id": "91",
     "name": "Lash lift coréen",
-    "minutes": 60
+    "minutes": 90
   },
   {
     "id": "92",
@@ -506,7 +506,7 @@ const SERVICE_CATALOG = [
   {
     "id": "99",
     "name": "Lissage brésilien",
-    "minutes": 120
+    "minutes": 150
   }
 ];
 
