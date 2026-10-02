@@ -11,502 +11,702 @@ const SERVICE_CATALOG = [
   {
     "id": "0",
     "name": "Balayage + patine + brushing - Cheveux mi longs",
-    "minutes": 195
+    "minutes": 195,
+    "price": "110 €",
+    "provider": "Sandra"
   },
   {
     "id": "1",
     "name": "Balayage + patine + brushing - Cheveux longs",
-    "minutes": 255
+    "minutes": 255,
+    "price": "125 €",
+    "provider": "Sandra"
   },
   {
     "id": "2",
     "name": "Balayage + patine + brushing + coupe - Cheveux mi longs",
-    "minutes": 195
+    "minutes": 195,
+    "price": "124 €",
+    "provider": "Sandra"
   },
   {
     "id": "3",
     "name": "Balayage + patine + brushing + coupe - Cheveux longs",
-    "minutes": 255
+    "minutes": 255,
+    "price": "139 €",
+    "provider": "Sandra"
   },
   {
     "id": "4",
     "name": "Shampooing",
-    "minutes": 5
+    "minutes": 5,
+    "price": "3 €",
+    "provider": "Sandra"
   },
   {
     "id": "5",
     "name": "Soin profond",
-    "minutes": 5
+    "minutes": 5,
+    "price": "10 €",
+    "provider": "Sandra"
   },
   {
     "id": "6",
     "name": "Double patine ou gloss supplémentaire",
-    "minutes": 15
+    "minutes": 15,
+    "price": "À partir de 15 €",
+    "provider": "Sandra"
   },
   {
     "id": "7",
     "name": "Supplément lissage / wavy",
-    "minutes": 15
+    "minutes": 15,
+    "price": "5 €",
+    "provider": "Sandra"
   },
   {
     "id": "8",
     "name": "Supplément mousse",
-    "minutes": 5
+    "minutes": 5,
+    "price": "5 €",
+    "provider": "Sandra"
   },
   {
     "id": "9",
     "name": "Mèches + patine + brushing - Cheveux courts",
-    "minutes": 100
+    "minutes": 100,
+    "price": "85 €",
+    "provider": "Sandra"
   },
   {
     "id": "10",
     "name": "Mèches + platine + brushing - Cheveux mi longs",
-    "minutes": 165
+    "minutes": 165,
+    "price": "95 €",
+    "provider": "Sandra"
   },
   {
     "id": "11",
     "name": "Mèches + patine + brushing - Cheveux longs",
-    "minutes": 180
+    "minutes": 180,
+    "price": "110 €",
+    "provider": "Sandra"
   },
   {
     "id": "12",
     "name": "Mèches + patine + coupe + brushing - Cheveux courts",
-    "minutes": 165
+    "minutes": 165,
+    "price": "99 €",
+    "provider": "Sandra"
   },
   {
     "id": "13",
     "name": "Mèches + patine + coupe + brushing - Cheveux mi longs",
-    "minutes": 175
+    "minutes": 175,
+    "price": "109 €",
+    "provider": "Sandra"
   },
   {
     "id": "14",
     "name": "Mèches + patine + coupe + brushing - Cheveux longs",
-    "minutes": 180
+    "minutes": 180,
+    "price": "125 €",
+    "provider": "Sandra"
   },
   {
     "id": "15",
     "name": "Shampoing",
-    "minutes": 3
+    "minutes": 3,
+    "price": "5 €",
+    "provider": "Sandra"
   },
   {
     "id": "16",
     "name": "Soin profond",
-    "minutes": 5
+    "minutes": 5,
+    "price": "10 €",
+    "provider": "Sandra"
   },
   {
     "id": "17",
     "name": "Double patine ou gloss supplémentaire",
-    "minutes": 15
+    "minutes": 15,
+    "price": "À partir de 15 €",
+    "provider": "Sandra"
   },
   {
     "id": "18",
     "name": "Supplément lissage / wavy",
-    "minutes": 15
+    "minutes": 15,
+    "price": "5 €",
+    "provider": "Sandra"
   },
   {
     "id": "19",
     "name": "Supplément mousse",
-    "minutes": 5
+    "minutes": 5,
+    "price": "5 €",
+    "provider": "Sandra"
   },
   {
     "id": "20",
     "name": "Coloration + brushing - Cheveux courts",
-    "minutes": 90
+    "minutes": 90,
+    "price": "À partir de 49 €",
+    "provider": "Sandra"
   },
   {
     "id": "21",
     "name": "Coloration + brushing - Cheveux mi-long",
-    "minutes": 100
+    "minutes": 100,
+    "price": "À partir de 65 €",
+    "provider": "Sandra"
   },
   {
     "id": "22",
     "name": "Coloration + brushing - Cheveux longs",
-    "minutes": 110
+    "minutes": 110,
+    "price": "À partir de 75 €",
+    "provider": "Sandra"
   },
   {
     "id": "23",
     "name": "Coloration + brushing + coupe - Cheveux courts",
-    "minutes": 105
+    "minutes": 105,
+    "price": "À partir de 72 €",
+    "provider": "Sandra"
   },
   {
     "id": "24",
     "name": "Coloration + brushing + coupe - Cheveux mi-long",
-    "minutes": 100
+    "minutes": 100,
+    "price": "À partir de 78 €",
+    "provider": "Sandra"
   },
   {
     "id": "25",
     "name": "Coloration + brushing + coupe - Cheveux longs",
-    "minutes": 110
+    "minutes": 110,
+    "price": "À partir de 88 €",
+    "provider": "Sandra"
   },
   {
     "id": "26",
     "name": "Coloration + mèches + brushing - Cheveux courts",
-    "minutes": 125
+    "minutes": 125,
+    "price": "15 €",
+    "provider": "Sandra"
   },
   {
     "id": "27",
     "name": "Coloration + mèches + brushing - Cheveux mi-longs",
-    "minutes": 170
+    "minutes": 170,
+    "price": "15 €",
+    "provider": "Sandra"
   },
   {
     "id": "28",
     "name": "Coloration + mèches + brushing - Cheveux longs",
-    "minutes": 215
+    "minutes": 215,
+    "price": "15 €",
+    "provider": "Sandra"
   },
   {
     "id": "29",
     "name": "Coloration + mèches + brushing + coupe - Cheveux courts",
-    "minutes": 135
+    "minutes": 135,
+    "price": "15 €",
+    "provider": "Sandra"
   },
   {
     "id": "30",
     "name": "Coloration + mèches + brushing + coupe - Cheveux mi-long",
-    "minutes": 180
+    "minutes": 180,
+    "price": "15 €",
+    "provider": "Sandra"
   },
   {
     "id": "31",
     "name": "Coloration + mèches + brushing + coupe - Cheveux longs",
-    "minutes": 215
+    "minutes": 215,
+    "price": "15 €",
+    "provider": "Sandra"
   },
   {
     "id": "32",
     "name": "Shampoing",
-    "minutes": 5
+    "minutes": 5,
+    "price": "3 €",
+    "provider": "Sandra"
   },
   {
     "id": "33",
     "name": "Soin profond",
-    "minutes": 5
+    "minutes": 5,
+    "price": "10 €",
+    "provider": "Sandra"
   },
   {
     "id": "34",
     "name": "Double patine ou gloss supplémentaire",
-    "minutes": 15
+    "minutes": 15,
+    "price": "À partir de 15 €",
+    "provider": "Sandra"
   },
   {
     "id": "35",
     "name": "Supplément lissage / wavy",
-    "minutes": 15
+    "minutes": 15,
+    "price": "5 €",
+    "provider": "Sandra"
   },
   {
     "id": "36",
     "name": "Supplément mousse",
-    "minutes": 5
+    "minutes": 5,
+    "price": "5 €",
+    "provider": "Sandra"
   },
   {
     "id": "37",
     "name": "Brushing",
-    "minutes": 45
+    "minutes": 45,
+    "price": "Tarif à confirmer",
+    "provider": "Sandra"
   },
   {
     "id": "38",
     "name": "Shampoing  + Brushing",
-    "minutes": 30
+    "minutes": 30,
+    "price": "Tarif à confirmer",
+    "provider": "Sandra"
   },
   {
     "id": "39",
     "name": "Coupe bébé jusqu'à 2 ans",
-    "minutes": 15
+    "minutes": 15,
+    "price": "8 €",
+    "provider": "Sandra"
   },
   {
     "id": "40",
     "name": "Coupe fillette jusqu'à 12 ans",
-    "minutes": 15
+    "minutes": 15,
+    "price": "15 €",
+    "provider": "Sandra"
   },
   {
     "id": "41",
     "name": "Coupe garçon jusqu'à 12 ans",
-    "minutes": 15
+    "minutes": 15,
+    "price": "12 €",
+    "provider": "Sandra"
   },
   {
     "id": "42",
     "name": "Dégradé, taper, etc... jusqu'à 12 ans",
-    "minutes": 30
+    "minutes": 30,
+    "price": "20 €",
+    "provider": "Sandra"
   },
   {
     "id": "43",
     "name": "Shampooing coupe coiffage (court)",
-    "minutes": 30
+    "minutes": 30,
+    "price": "30 €",
+    "provider": "Sandra"
   },
   {
     "id": "44",
     "name": "Shampooing coupe coiffage (mi long)",
-    "minutes": 30
+    "minutes": 30,
+    "price": "38 €",
+    "provider": "Sandra"
   },
   {
     "id": "45",
     "name": "Shampooing coupe coiffage (long)",
-    "minutes": 45
+    "minutes": 45,
+    "price": "45 €",
+    "provider": "Sandra"
   },
   {
     "id": "46",
     "name": "Brushing cheveux court",
-    "minutes": 30
+    "minutes": 30,
+    "price": "25 €",
+    "provider": "Sandra"
   },
   {
     "id": "47",
     "name": "Brushing cheveux mi-long",
-    "minutes": 30
+    "minutes": 30,
+    "price": "30 €",
+    "provider": "Sandra"
   },
   {
     "id": "48",
     "name": "Brushing cheveux long",
-    "minutes": 30
+    "minutes": 30,
+    "price": "35 €",
+    "provider": "Sandra"
   },
   {
     "id": "49",
     "name": "Soin cheveux court",
-    "minutes": 5
+    "minutes": 5,
+    "price": "6 €",
+    "provider": "Sandra"
   },
   {
     "id": "50",
     "name": "Soin cheveux mi long",
-    "minutes": 5
+    "minutes": 5,
+    "price": "8 €",
+    "provider": "Sandra"
   },
   {
     "id": "51",
     "name": "Soin cheveux long",
-    "minutes": 5
+    "minutes": 5,
+    "price": "10 €",
+    "provider": "Sandra"
   },
   {
     "id": "52",
     "name": "Soin Serviette Chaude",
-    "minutes": 10
+    "minutes": 10,
+    "price": "13 €",
+    "provider": "Sandra"
   },
   {
     "id": "53",
     "name": "Frange",
-    "minutes": 10
+    "minutes": 10,
+    "price": "5 €",
+    "provider": "Sandra"
   },
   {
     "id": "54",
     "name": "Supplément lissage / wavy",
-    "minutes": 15
+    "minutes": 15,
+    "price": "6 €",
+    "provider": "Sandra"
   },
   {
     "id": "55",
     "name": "Supplément mousse",
-    "minutes": 5
+    "minutes": 5,
+    "price": "5 €",
+    "provider": "Sandra"
   },
   {
     "id": "56",
     "name": "Coupe classique sans shampooing",
-    "minutes": 30
+    "minutes": 30,
+    "price": "16 €",
+    "provider": "Sandra"
   },
   {
     "id": "57",
     "name": "Dégradé américain, taper etc",
-    "minutes": 30
+    "minutes": 30,
+    "price": "20 €",
+    "provider": "Sandra"
   },
   {
     "id": "58",
     "name": "Coupe + traçage barbe",
-    "minutes": 30
+    "minutes": 30,
+    "price": "28 €",
+    "provider": "Sandra"
   },
   {
     "id": "59",
     "name": "Traçage barbe",
-    "minutes": 15
+    "minutes": 15,
+    "price": "12 €",
+    "provider": "Sandra"
   },
   {
     "id": "60",
     "name": "Rasage complet à l'ancienne",
-    "minutes": 30
+    "minutes": 30,
+    "price": "25 €",
+    "provider": "Sandra"
   },
   {
     "id": "61",
     "name": "Shampooing + coupe",
-    "minutes": 30
+    "minutes": 30,
+    "price": "20 €",
+    "provider": "Sandra"
   },
   {
     "id": "62",
     "name": "Rituel barbier",
-    "minutes": 20
+    "minutes": 20,
+    "price": "20 €",
+    "provider": "Sandra"
   },
   {
     "id": "63",
     "name": "Rituel Barbier + Coupe",
-    "minutes": 45
+    "minutes": 45,
+    "price": "40 €",
+    "provider": "Sandra"
   },
   {
     "id": "64",
     "name": "Coloration barbe",
-    "minutes": 15
+    "minutes": 15,
+    "price": "15 €",
+    "provider": "Sandra"
   },
   {
     "id": "65",
     "name": "Coupe + coloration",
-    "minutes": 55
+    "minutes": 55,
+    "price": "45 €",
+    "provider": "Sandra"
   },
   {
     "id": "66",
     "name": "Coupe + décoloration",
-    "minutes": 155
+    "minutes": 155,
+    "price": "60 €",
+    "provider": "Sandra"
   },
   {
     "id": "67",
     "name": "Coupe + permanente",
-    "minutes": 95
+    "minutes": 95,
+    "price": "55 €",
+    "provider": "Sandra"
   },
   {
     "id": "68",
     "name": "Coupe + mèches",
-    "minutes": 75
+    "minutes": 75,
+    "price": "52 €",
+    "provider": "Sandra"
   },
   {
     "id": "69",
     "name": "Soin",
-    "minutes": 5
+    "minutes": 5,
+    "price": "6 €",
+    "provider": "Sandra"
   },
   {
     "id": "70",
     "name": "Shampoing serviette chaude",
-    "minutes": 10
+    "minutes": 10,
+    "price": "10 €",
+    "provider": "Sandra"
   },
   {
     "id": "71",
     "name": "Supplément cheveux long",
-    "minutes": 30
+    "minutes": 30,
+    "price": "6 €",
+    "provider": "Sandra"
   },
   {
     "id": "72",
     "name": "Épilation nez / oreilles",
-    "minutes": 10
+    "minutes": 10,
+    "price": "À partir de 7 €",
+    "provider": "Sandra"
   },
   {
     "id": "73",
     "name": "👀 POSE COMPLETE RUSSE",
-    "minutes": 150
+    "minutes": 150,
+    "price": "90 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "74",
     "name": "Remplissage 2 semaines russe",
-    "minutes": 90
+    "minutes": 90,
+    "price": "45 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "75",
     "name": "Remplissage 3 semaines russe",
-    "minutes": 90
+    "minutes": 90,
+    "price": "55 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "76",
     "name": "Remplissage 4 semaines russe",
-    "minutes": 105
+    "minutes": 105,
+    "price": "65 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "77",
     "name": "👀 POSE COMPLETE MIXTE",
-    "minutes": 120
+    "minutes": 120,
+    "price": "75 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "78",
     "name": "Remplissage 2 semaines mixte",
-    "minutes": 90
+    "minutes": 90,
+    "price": "35 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "79",
     "name": "Remplissage 3 semaines mixte",
-    "minutes": 90
+    "minutes": 90,
+    "price": "45 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "80",
     "name": "Remplissage 4 semaines mixte",
-    "minutes": 105
+    "minutes": 105,
+    "price": "55 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "81",
     "name": "👀 POSE COMPLETE CIL A CIL",
-    "minutes": 90
+    "minutes": 90,
+    "price": "60 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "82",
     "name": "Remplissage 2 semaines cil a cil",
-    "minutes": 60
+    "minutes": 60,
+    "price": "50 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "83",
     "name": "Remplissage 3 semaines cil a cil",
-    "minutes": 90
+    "minutes": 90,
+    "price": "40 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "84",
     "name": "Remplissage 4 semaines cil a cil",
-    "minutes": 105
+    "minutes": 105,
+    "price": "50 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "85",
     "name": "👀 POSE COMPLETE LINER",
-    "minutes": 150
+    "minutes": 150,
+    "price": "100 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "86",
     "name": "Remplissage 2 semaines LINER",
-    "minutes": 90
+    "minutes": 90,
+    "price": "45 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "87",
     "name": "Remplissage 3 semaines LINER",
-    "minutes": 105
+    "minutes": 105,
+    "price": "55 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "88",
     "name": "Remplissage 4 semaines LINER",
-    "minutes": 120
+    "minutes": 120,
+    "price": "65 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "89",
     "name": "Dépose cils",
-    "minutes": 20
+    "minutes": 20,
+    "price": "10 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "90",
     "name": "Réhaussement de cil + soin + teinture",
-    "minutes": 60
+    "minutes": 60,
+    "price": "50 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "91",
     "name": "Lash lift coréen",
-    "minutes": 90
+    "minutes": 90,
+    "price": "60 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "92",
     "name": "Création sourcils",
-    "minutes": 240
+    "minutes": 240,
+    "price": "180 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "93",
     "name": "Retouche",
-    "minutes": 120
+    "minutes": 120,
+    "price": "80 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "94",
     "name": "Retouche 6 à 8 mois",
-    "minutes": 30
+    "minutes": 30,
+    "price": "90 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "95",
     "name": "Retouche 12 mois et plus",
-    "minutes": 120
+    "minutes": 120,
+    "price": "110 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "96",
     "name": "Sourcils",
-    "minutes": 30
+    "minutes": 30,
+    "price": "7 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "97",
     "name": "Sourcils + teinture",
-    "minutes": 30
+    "minutes": 30,
+    "price": "15 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "98",
     "name": "Lèvres",
-    "minutes": 5
+    "minutes": 5,
+    "price": "7 €",
+    "provider": "Lauralyne"
   },
   {
     "id": "99",
     "name": "Lissage brésilien",
-    "minutes": 150
+    "minutes": 150,
+    "price": "Sur devis",
+    "provider": "Sandra"
   }
 ];
 
@@ -577,18 +777,29 @@ function createBooking(payload) {
     if (!isFree_(calendar, start, end)) {
       return {ok: false, error: 'Ce créneau vient d’être réservé. Choisis-en un autre.'};
     }
-    var serviceNames = selected.map(function(item) { return item.name; });
+    var providers = selected.map(function(item) { return item.provider; }).filter(function(value, index, list) { return list.indexOf(value) === index; });
+    var serviceLines = selected.map(function(item) {
+      return '• ' + item.name + ' — ' + item.minutes + ' min — ' + item.price;
+    });
+    var bookingPrice = formatBookingPrice_(selected);
+    var dateLabel = Utilities.formatDate(start, TIME_ZONE, 'dd/MM/yyyy');
+    var startLabel = Utilities.formatDate(start, TIME_ZONE, 'HH:mm');
+    var endLabel = Utilities.formatDate(end, TIME_ZONE, 'HH:mm');
     var description = [
       'Réservation depuis le site VL’BEAUTY & SV COIFFURE',
       'Client : ' + name,
       'Téléphone : ' + phone,
       'E-mail : ' + email,
+      'Intervenante(s) : ' + providers.join(' et '),
+      'Date : ' + dateLabel,
+      'Horaire : ' + startLabel + ' – ' + endLabel,
       'Prestations :',
-      serviceNames.map(function(service) { return '• ' + service; }).join('\n'),
-      'Durée totale : ' + duration + ' min'
+      serviceLines.join('\n'),
+      'Durée totale : ' + duration + ' min',
+      'Prix total indicatif : ' + bookingPrice
     ].join('\n');
     var event = calendar.createEvent(
-      'Réservation salon — ' + name,
+      'Réservation — ' + providers.join(' et ') + ' — ' + name,
       start,
       end,
       {description: description, guests: email, sendInvites: true}
@@ -605,6 +816,24 @@ function createBooking(payload) {
   } finally {
     lock.releaseLock();
   }
+}
+
+function formatBookingPrice_(selected) {
+  var total = 0;
+  var startsAt = false;
+  var quote = false;
+  selected.forEach(function(item) {
+    var label = String(item.price || '').trim();
+    if (/devis/i.test(label)) {
+      quote = true;
+      return;
+    }
+    if (/partir/i.test(label)) startsAt = true;
+    var amount = label.match(/[0-9]+(?:[,.][0-9]+)?/);
+    if (amount) total += Number(amount[0].replace(',', '.'));
+  });
+  if (quote) return 'sur devis';
+  return (startsAt ? 'à partir de ' : '') + total + ' €';
 }
 
 function findAvailableSlots_(dateText, durationMinutes) {
