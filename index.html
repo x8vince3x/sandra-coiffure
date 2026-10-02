@@ -385,6 +385,7 @@
   .chosen-list li{padding:8px 0;border-bottom:1px solid var(--line);font-size:.86rem;color:var(--ink)}
   .chosen-total{border-top:1px solid var(--line);padding-top:12px;font-weight:700;color:var(--ink)}
   .booking-coming{margin-top:18px;font-size:.82rem!important;color:#aaa59d!important}
+  #booking-link[aria-disabled="true"]{opacity:.45;pointer-events:none}
   @media(max-width:520px){
     .offer-list li{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"name choose" "duration price";gap:5px 9px}
     .offer-name{grid-area:name}
@@ -758,7 +759,7 @@
         <aside class="panel booking-cta">
           <h3>Votre sélection</h3>
           <div id="selection-summary" aria-live="polite"><p>Choisissez une ou plusieurs prestations dans les menus.</p></div>
-          <p class="booking-coming">La prise de rendez-vous sera activée avec l’agenda personnalisé.</p>
+          <a id="booking-link" class="btn confirm-btn" href="#" target="_blank" rel="noopener" aria-disabled="true">Sélectionnez vos prestations</a><p class="booking-coming">Le créneau sera calculé selon la durée totale et vérifié dans l’agenda du salon.</p>
         </aside>
       </div>
     </section>
@@ -816,10 +817,18 @@
 
   function renderSelection() {
     const target = document.getElementById('selection-summary');
+    const bookingLink = document.getElementById('booking-link');
     if (!chosen.size) {
       target.innerHTML = '<p>Choisissez une ou plusieurs prestations dans les menus.</p>';
+      bookingLink.href = '#';
+      bookingLink.setAttribute('aria-disabled', 'true');
+      bookingLink.textContent = 'Sélectionnez vos prestations';
       return;
     }
+    const ids = [...chosen.keys()];
+    bookingLink.href = 'https://script.google.com/macros/s/AKfycbznsLLh1twxkZt3JNA0L-UuyrggJs7aUbg2MflrnGgY5DTKO5mfzjDnzKgenE79LASN/exec?ids=' + encodeURIComponent(JSON.stringify(ids));
+    bookingLink.setAttribute('aria-disabled', 'false');
+    bookingLink.textContent = 'Choisir un créneau';
     const items = [...chosen.values()];
     const totalMinutes = items.reduce((total, item) => {
       const numbers = item.duration.match(/[0-9]+/g) || [];
